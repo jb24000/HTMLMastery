@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HTML 6-Week Mastery</title>
-<meta name="theme-color" content="#101327" />
+<meta name="theme-color" content="#121737">
 
 <style>
   :root{
-    /* purple HTML theme */
-    --bg-1:#0c0f24; --bg-2:#121738;
+    /* HTML Mastery purple */
+    --bg-1:#0e122a; --bg-2:#161c45;
     --card:rgba(255,255,255,.06); --card-2:rgba(255,255,255,.08);
     --border:rgba(255,255,255,.14);
     --text:#eef0ff; --muted:#bfc7e6;
     --accent:#6a5cff; --accent-2:#9a6bff;
     --good:#49e1a7; --warn:#ffc56d; --bad:#ff7d8b;
     --chip:#1a1f44; --shadow:0 12px 40px rgba(0,0,0,.35);
-    --radius:18px;
   }
   html,body{height:100%}
   body{
     margin:0; color:var(--text);
     font-family: ui-sans-serif,-apple-system,Segoe UI,Roboto,Inter,Arial;
     background:
-      radial-gradient(1200px 800px at 10% -10%, #1d2150 0%, transparent 60%),
-      radial-gradient(1200px 800px at 110% 0%, #1e2a6b 0%, transparent 60%),
+      radial-gradient(1000px 700px at 10% -10%, #222a6b 0%, transparent 60%),
+      radial-gradient(1100px 800px at 110% 0%, #1a2b74 0%, transparent 60%),
       radial-gradient(1200px 800px at -10% 110%, #152263 0%, transparent 60%),
       linear-gradient(180deg,var(--bg-1),var(--bg-2));
   }
-  .page{max-width:980px;margin:24px auto 60px;padding:0 18px}
+  .page{max-width:1000px;margin:24px auto 68px;padding:0 18px}
+
   .header{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px;font-size:clamp(24px,2.6vw,34px)}
   .header .badge{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;box-shadow:0 4px 14px rgba(154,107,255,.35)}
   .sub{margin:4px 0 18px;color:var(--muted);font-size:14.5px}
+
   .shell{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:26px;padding:24px;box-shadow:var(--shadow)}
 
-  /* top: progress donut on the left */
+  /* Top: progress donut + controls */
   .top{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
   @media (max-width:760px){.top{grid-template-columns:1fr;justify-items:center;text-align:center}}
   .circle{width:170px;height:170px;border-radius:50%;
-    background:conic-gradient(var(--accent) calc(var(--pct,0)*1%), rgba(255,255,255,.12) 0);
+    background: conic-gradient(var(--accent) calc(var(--pct,0)*1%), rgba(255,255,255,.12) 0);
     display:grid;place-items:center;border:10px solid rgba(255,255,255,.06)}
-  .circle .inner{width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.06);display:grid;place-items:center;font-size:28px;font-weight:800;color:var(--text)}
+  .circle .inner{width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.06);display:grid;place-items:center;font-size:28px;font-weight:800}
 
   .controls{display:grid;gap:14px;grid-template-columns:1fr 1fr}
   @media (max-width:560px){.controls{grid-template-columns:1fr}}
-  .select{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--text);display:flex;align-items:center;gap:10px}
+  .select{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px}
   .select select{background:transparent;color:var(--text);border:none;outline:none;width:100%;font-size:15px}
 
   .stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
@@ -58,26 +59,36 @@
   .btn.ghost{background:transparent}
   .btn.small{padding:8px 12px;font-size:13px}
 
+  /* Day card with two sessions */
   .daily{margin-top:14px;background:var(--card-2);border:1px solid var(--border);border-radius:16px;padding:16px}
   .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
   .h2{font-weight:900;font-size:18px}
   .nav{display:flex;gap:8px}
-  .bullet{display:flex;align-items:flex-start;gap:10px;margin-top:8px}
-  .radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);margin-top:2px;cursor:pointer}
-  .radio.done{background:linear-gradient(135deg,var(--good),#9ff0c9);border-color:transparent}
+
+  .session{display:flex;gap:12px;margin-top:14px}
+  .check{min-width:20px;height:20px;border-radius:50%;border:2px solid var(--muted);margin-top:3px;cursor:pointer}
+  .check.done{background:linear-gradient(135deg,var(--good),#9ff0c9);border-color:transparent}
+  .s-wrap{flex:1}
+
   .title{font-weight:800}
-  .meta{color:var(--muted);font-size:12.5px;margin-left:4px}
-  .panel{background:rgba(255,255,255,.05);border:1px dashed var(--border);border-radius:12px;padding:12px;margin:12px 0 0 28px}
-  .panel .rowK{color:var(--muted);font-size:12px}
-  .panel .rowV{margin:4px 0 8px;font-weight:700}
+  .meta{color:var(--muted);font-size:12.5px;margin:4px 0 2px}
+  .desc{color:var(--muted)}
 
-  /* Guarantee links are clickable and visible */
-  .daily a{color:var(--accent-2);text-decoration:underline;font-weight:700;position:relative;z-index:3}
-  .daily a:hover{text-decoration:none}
+  .panel{background:rgba(255,255,255,.05);border:1px dashed var(--border);border-radius:12px;padding:12px;margin:10px 0 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:700px){.grid2{grid-template-columns:1fr}}
 
-  .tags{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0 28px}
+  .panel .k{color:var(--muted);font-size:12px}
+  .panel .v{font-weight:700;margin-top:2px}
+
+  /* Links / tags */
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
   .tag{background:rgba(154,107,255,.15);color:#e8dcff;border:1px solid rgba(154,107,255,.35);padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
-  .muted{color:var(--muted)}
+  .tag[href]{text-decoration:none}
+  .tag[href]:hover{filter:brightness(1.1)}
+
+  /* Ensure links always clickable */
+  .daily a{position:relative;z-index:3}
 </style>
 </head>
 <body>
@@ -86,29 +97,30 @@
       <div class="badge">⌁</div>
       HTML 6-Week Mastery
     </div>
-    <div class="sub">6-week sprint • core HTML foundations → forms, media, semantics, a11y, performance • with AWS-resume tie-ins</div>
+    <div class="sub">
+      Fully immersive 6-week program → from foundations to **supervisory-level** HTML leadership
+      (a11y, forms, media, performance, SEO, reviews, and mentoring).
+    </div>
 
     <div class="shell">
       <div class="top">
-        <!-- Progress donut at the top/left -->
-        <div class="circle" id="progressCircle" style="--pct:0">
-          <div class="inner" id="progressPct">0%</div>
-        </div>
+        <!-- Progress donut -->
+        <div class="circle" id="donut" style="--pct:0"><div class="inner" id="donutPct">0%</div></div>
 
         <div>
           <div class="controls">
             <div class="select">
               <span class="muted" style="font-weight:700">Mode</span>
-              <select id="modeSelect">
+              <select id="mode">
                 <option>Guided Sprint (6 weeks)</option>
                 <option>Free Study</option>
               </select>
             </div>
             <div class="select">
               <span class="muted" style="font-weight:700">Track</span>
-              <select id="trackSelect">
-                <option value="core">Full Track (6 weeks)</option>
-                <option value="core-4">Fast Track (4 weeks)</option>
+              <select id="track">
+                <option value="full">Full Track (6 weeks)</option>
+                <option value="fast">Fast Track (4 weeks)</option>
               </select>
             </div>
           </div>
@@ -119,199 +131,835 @@
               <div class="v" id="streak">0</div>
             </div>
             <div class="stat">
-              <div class="k">Days Completed (All)</div>
-              <div class="v"><span id="daysDone">0</span> / <span id="daysTotal">2</span></div>
+              <div class="k">Sessions Completed</div>
+              <div class="v"><span id="done">0</span> / <span id="total">0</span></div>
             </div>
           </div>
 
           <div class="bar">
             <div class="muted">🔔 Enable notifications for daily reminders</div>
             <div>
-              <button class="btn acc" id="alertsBtn">Enable Alerts</button>
-              <button class="btn ghost" id="resetBtn">Reset</button>
+              <button class="btn acc" id="enableAlerts">Enable Alerts</button>
+              <button class="btn ghost" id="reset">Reset</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Daily card (same format as your attachment) -->
-      <div class="daily" id="dailyCard">
+      <!-- Day card -->
+      <div class="daily" id="dayCard">
         <div class="row">
-          <div class="h2" id="dayTitle">Day 1 of 2 — CORE: Structure & semantics</div>
+          <div class="h2" id="dayTitle">Day 1 of 42 — Week 1: Foundations</div>
           <div class="nav">
-            <button class="btn small" id="prevBtn">← Prev</button>
-            <button class="btn small" id="nextBtn">Next →</button>
+            <button class="btn small" id="prev">← Prev</button>
+            <button class="btn small" id="next">Next →</button>
           </div>
         </div>
 
-        <div class="bullet">
-          <div class="radio" id="dayCheck"></div>
-          <div>
-            <div class="title" id="taskTitle">Semantic layout (header/nav/main/aside/footer)</div>
-            <div class="meta"><span class="tag">Setup</span> <span id="slotLabel">Morning (45m)</span></div>
-            <div class="muted" id="taskDesc">Build a skeleton page and verify landmarks with a screen reader.</div>
-
-            <div class="panel">
-              <div class="rowK">What you learned</div>
-              <div class="rowV" id="learned">Document structure, landmarks</div>
-              <div class="rowK">What you did</div>
-              <div class="rowV" id="did">Create semantic layout; skip links</div>
-              <div class="rowK">AWS tie-in</div>
-              <div class="rowV" id="aws">Improves Lighthouse scores for static sites on S3 + CloudFront.</div>
+        <!-- session A -->
+        <div class="session">
+          <div class="check" id="s0"></div>
+          <div class="s-wrap">
+            <div class="title" id="s0_title">Document mental model & HTML anatomy</div>
+            <div class="meta" id="s0_slot">Morning (45m) • 🧱 Foundations</div>
+            <div class="desc" id="s0_desc">Build an intuition for tags, attributes, DOM, and content flow.</div>
+            <div class="panel grid2">
+              <div>
+                <div class="k">What you learned</div>
+                <div class="v" id="s0_learned">DOM, elements, semantics</div>
+              </div>
+              <div>
+                <div class="k">What you did</div>
+                <div class="v" id="s0_did">Skeleton page; headings; paragraphs; lists</div>
+              </div>
+              <div>
+                <div class="k">AWS tie-in</div>
+                <div class="v" id="s0_aws">Static hosting on S3/CloudFront benefits from clean semantics</div>
+              </div>
+              <div>
+                <div class="k">Resume bullet</div>
+                <div class="v" id="s0_bullet">—</div>
+              </div>
             </div>
+            <div class="tags" id="s0_links"></div>
+            <div class="tags">
+              <button class="btn small" data-copy="s0">Copy Resume Bullet</button>
+            </div>
+          </div>
+        </div>
 
-            <div class="tags" id="links"></div>
+        <!-- session B -->
+        <div class="session">
+          <div class="check" id="s1"></div>
+          <div class="s-wrap">
+            <div class="title" id="s1_title">Semantic layout & landmarks</div>
+            <div class="meta" id="s1_slot">Evening (45m) • 🧭 Semantics</div>
+            <div class="desc" id="s1_desc">header/nav/main/aside/footer, skip links, and screen-reader landmarks.</div>
+            <div class="panel grid2">
+              <div>
+                <div class="k">What you learned</div>
+                <div class="v" id="s1_learned">Landmarks, navigation patterns</div>
+              </div>
+              <div>
+                <div class="k">What you did</div>
+                <div class="v" id="s1_did">Implemented skeleton with accessible nav & skip-to-main</div>
+              </div>
+              <div>
+                <div class="k">AWS tie-in</div>
+                <div class="v" id="s1_aws">Boosts Lighthouse & SEO for CloudFront-served pages</div>
+              </div>
+              <div>
+                <div class="k">Resume bullet</div>
+                <div class="v" id="s1_bullet">—</div>
+              </div>
+            </div>
+            <div class="tags" id="s1_links"></div>
+            <div class="tags">
+              <button class="btn small" data-copy="s1">Copy Resume Bullet</button>
+            </div>
           </div>
         </div>
       </div>
 
-    </div><!-- /shell -->
-  </div><!-- /page -->
+      <!-- (Optional) Free study day picker shown when mode switches -->
+      <div class="daily" id="picker" style="display:none">
+        <div class="h2" style="margin-bottom:8px">Jump to a day</div>
+        <div id="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px"></div>
+      </div>
+
+    </div>
+  </div>
 
 <script>
-/* ------------------------------
-   Small state + helpers
----------------------------------*/
+/* ---------- Core UI helpers ---------- */
+const $ = sel => document.querySelector(sel);
 const els = {
-  pct: document.getElementById('progressPct'),
-  circle: document.getElementById('progressCircle'),
-  streak: document.getElementById('streak'),
-  daysDone: document.getElementById('daysDone'),
-  daysTotal: document.getElementById('daysTotal'),
-  dayTitle: document.getElementById('dayTitle'),
-  dayCheck: document.getElementById('dayCheck'),
-  taskTitle: document.getElementById('taskTitle'),
-  slotLabel: document.getElementById('slotLabel'),
-  taskDesc: document.getElementById('taskDesc'),
-  learned: document.getElementById('learned'),
-  did: document.getElementById('did'),
-  aws: document.getElementById('aws'),
-  links: document.getElementById('links'),
-  prevBtn: document.getElementById('prevBtn'),
-  nextBtn: document.getElementById('nextBtn'),
-  alertsBtn: document.getElementById('alertsBtn'),
-  resetBtn: document.getElementById('resetBtn')
+  donut: $('#donut'), donutPct: $('#donutPct'),
+  mode: $('#mode'), track: $('#track'),
+  streak: $('#streak'), done: $('#done'), total: $('#total'),
+  enableAlerts: $('#enableAlerts'), reset: $('#reset'),
+  dayTitle: $('#dayTitle'), prev: $('#prev'), next: $('#next'),
+  dayCard: $('#dayCard'), picker: $('#picker'), grid: $('#grid'),
+  s: [
+    {check:$('#s0'), t:$('#s0_title'), slot:$('#s0_slot'), d:$('#s0_desc'),
+     learned:$('#s0_learned'), did:$('#s0_did'), aws:$('#s0_aws'), bullet:$('#s0_bullet'), links:$('#s0_links')},
+    {check:$('#s1'), t:$('#s1_title'), slot:$('#s1_slot'), d:$('#s1_desc'),
+     learned:$('#s1_learned'), did:$('#s1_did'), aws:$('#s1_aws'), bullet:$('#s1_bullet'), links:$('#s1_links')}
+  ]
 };
 
-const KEY = 'html6_progress_v1';
+/* Keep anchors always clickable even if we add card handlers later */
+document.addEventListener('click', (e)=>{
+  const a = e.target.closest('a[href]');
+  if (!a) return;
+  e.stopImmediatePropagation(); // don't let parents swallow the click
+}, true);
+
+/* ---------- Curriculum (6 weeks = 42 days, 2 sessions/day) ---------- */
+/* Each day: { title, sessions:[ {slot, tag, title, desc, learned, did, aws, resume, links:[{label,url}]} , ... ] } */
+const MDN = {
+  elements: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element",
+  semantics: "https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html",
+  forms: "https://developer.mozilla.org/en-US/docs/Learn/Forms",
+  validation: "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation",
+  inputs: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input",
+  a11y: "https://developer.mozilla.org/en-US/docs/Learn/Accessibility",
+  aria: "https://www.w3.org/TR/wai-aria-1.2/",
+  tables: "https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics",
+  media: "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding",
+  picture: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture",
+  video: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video",
+  audio: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio",
+  svg: "https://developer.mozilla.org/en-US/docs/Web/SVG",
+  images: "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images",
+  perfHints: "https://web.dev/learn/performance/resource-hints/",
+  meta: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta",
+  seo: "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+  structured: "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data",
+  formsAPI: "https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation",
+  dialog: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog"
+};
+const DAYS = [];
+function day(title, A, B){DAYS.push({title, sessions:[A,B]})}
+function S({slot, tag, title, desc, learned, did, aws, resume, links}){return {slot,tag,title,desc,learned,did,aws,resume,links}}
+
+/* ---- Week 1: Foundations & Semantics ---- */
+day("Week 1: Foundations",
+  S({slot:"Morning (45m)", tag:"Foundations", title:"Document mental model & HTML anatomy",
+     desc:"Tags, attributes, DOM, content flow. Build a tiny but complete page.",
+     learned:"DOM structure, elements, attributes",
+     did:"Created skeleton page, headings/paragraphs/lists",
+     aws:"Clean semantics render well via S3/CloudFront static hosting",
+     resume:"Built semantic HTML skeletons aligned with WCAG & SEO best practices.",
+     links:[{label:"MDN Elements",url:MDN.elements},{label:"Semantics",url:MDN.semantics}]}),
+  S({slot:"Evening (45m)", tag:"Semantics", title:"Semantic layout & landmarks",
+     desc:"header/nav/main/aside/footer; skip links; verify landmarks in SR.",
+     learned:"Landmarks, navigation regions",
+     did:"Added nav & skip-to-main, validated with SR",
+     aws:"Improves Core Web Vitals when served via CloudFront",
+     resume:"Delivered accessible page structures with landmark navigation and skip links.",
+     links:[{label:"Semantics in HTML",url:MDN.semantics},{label:"ARIA (landmarks)",url:MDN.aria}]})
+);
+/* 2 */
+day("Week 1: Text, Links & Images",
+  S({slot:"Morning (45m)", tag:"Text", title:"Headings, paragraphs, inline semantics",
+     desc:"strong/em/emphasis, code/kbd, quotations & citations.",
+     learned:"Inline semantics & proper hierarchy",
+     did:"Refactored copy to meaningful inline tags",
+     aws:"Search relevance/preview improves for static sites",
+     resume:"Elevated content semantics—headings, inline roles—to boost readability & SEO.",
+     links:[{label:"MDN Elements",url:MDN.elements}]}),
+  S({slot:"Evening (45m)", tag:"Media", title:"Images & alt strategy",
+     desc:"Figure/figcaption, alt text taxonomy, lazy-loading, width/height.",
+     learned:"Accessible & performant images",
+     did:"Added alt, dimensions, lazy, captions",
+     aws:"CloudFront + responsive images reduce bytes & CLS",
+     resume:"Implemented image accessibility and lazy-loading to cut bytes and improve CLS.",
+     links:[{label:"Responsive images",url:MDN.images}]})
+);
+/* 3 */
+day("Week 1: Lists & Tables",
+  S({slot:"Morning (45m)", tag:"Lists", title:"Lists for structure",
+     desc:"ul/ol/dl; when to use which; nested lists & styling hooks.",
+     learned:"Structured grouping with lists",
+     did:"Converted ad-hoc blocks to semantic lists",
+     aws:"More predictable rendering on static pages",
+     resume:"Rewrote content blocks into semantic lists for clarity and accessibility.",
+     links:[{label:"MDN Elements",url:MDN.elements}]}),
+  S({slot:"Evening (60m)", tag:"Tables", title:"Accessible data tables",
+     desc:"caption, thead/tbody/tfoot, scope/id-headers, responsive approaches.",
+     learned:"Tabular semantics & associations",
+     did:"Built accessible table patterns",
+     aws:"Static dashboards remain usable without JS",
+     resume:"Delivered WCAG-compliant data tables (headers, scope, caption).",
+     links:[{label:"MDN Tables",url:MDN.tables}]})
+);
+/* 4 */
+day("Week 1: Navigation Patterns",
+  S({slot:"Morning (45m)", tag:"Nav", title:"Site nav & breadcrumbs",
+     desc:"Multiple nav regions, aria-current, breadcrumb list semantics.",
+     learned:"Robust nav patterns",
+     did:"Added aria-current & breadcrumbs",
+     aws:"Better crawlability for CloudFront sites",
+     resume:"Implemented multi-nav with aria-current and breadcrumb semantics.",
+     links:[{label:"Semantics",url:MDN.semantics}]}),
+  S({slot:"Evening (45m)", tag:"Footer", title:"Footers & legal",
+     desc:"Footer structure, contact links, meta, to-top link.",
+     learned:"Footer patterns",
+     did:"Composed global footer w/ legal & contact",
+     aws:"Consistent template across S3 buckets",
+     resume:"Standardized global footers with clear contact and legal sections.",
+     links:[{label:"MDN Elements",url:MDN.elements}]})
+);
+/* 5 */
+day("Week 1: Accessibility Primer",
+  S({slot:"Morning (60m)", tag:"a11y", title:"A11y fundamentals",
+     desc:"Perceivable/Operable/Understandable/Robust, focus order, names.",
+     learned:"WCAG pillars, name/role/value",
+     did:"Manual keyboard audit & fixes",
+     aws:"Accessible static sites reduce bounce rates",
+     resume:"Performed keyboard/a11y audits and corrected focus and names.",
+     links:[{label:"MDN Accessibility",url:MDN.a11y}]}),
+  S({slot:"Evening (45m)", tag:"Dialog", title:"Native <dialog> for modals",
+     desc:"Show/close, inert background, focus trap, accessible labels.",
+     learned:"Dialog semantics without JS libs",
+     did:"Replaced custom modal with <dialog>",
+     aws:"Lean HTML improves TTFB on edge",
+     resume:"Replaced custom modals with accessible native <dialog> components.",
+     links:[{label:"MDN <dialog>",url:MDN.dialog}]})
+);
+/* 6 */
+day("Week 1: Review & Quiz",
+  S({slot:"Morning (30m)", tag:"Review", title:"Landmarks & text semantics quick-check",
+     desc:"Self-audit existing pages; fix 3 issues.",
+     learned:"Applied semantics at scale",
+     did:"Submitted audit notes & PR",
+     aws:"Stronger templates for S3 static sites",
+     resume:"Led semantic audit and shipped fixes across templates.",
+     links:[{label:"MDN Elements",url:MDN.elements}]}),
+  S({slot:"Evening (30m)", tag:"Quiz", title:"Foundations checkpoint",
+     desc:"Short quiz + reflection log.",
+     learned:"Validated core concepts",
+     did:"Passed quiz; logged follow-ups",
+     aws:"—",
+     resume:"Maintained study logs and checkpoints to track mastery.",
+     links:[]})
+);
+/* 7 */
+day("Week 1: Project Day",
+  S({slot:"Morning (90m)", tag:"Build", title:"Mini-site v1",
+     desc:"2-page site with nav, images, table.",
+     learned:"End-to-end semantic build",
+     did:"Deployed mini-site to local server",
+     aws:"Ready for S3/CloudFront deploy",
+     resume:"Built a semantic mini-site with nav, images, and data tables.",
+     links:[{label:"Semantics",url:MDN.semantics}]}),
+  S({slot:"Evening (30m)", tag:"Polish", title:"Content QA",
+     desc:"Proofread, alt review, headings levels.",
+     learned:"Editorial QA",
+     did:"Fixed alt & heading issues",
+     aws:"—",
+     resume:"Drove editorial QA on headings/alt for consistency.",
+     links:[]})
+);
+
+/* ---- Week 2: Forms & Validation ---- */
+day("Week 2: Forms Basics",
+  S({slot:"Morning (60m)", tag:"Forms", title:"Form anatomy",
+     desc:"form, label/for, fieldset/legend, required/optional.",
+     learned:"Accessible form structure",
+     did:"Signup form w/ labels & legends",
+     aws:"Better conversion on CloudFront landers",
+     resume:"Designed accessible forms with labels, groups, and clear affordances.",
+     links:[{label:"MDN Forms",url:MDN.forms}]}),
+  S({slot:"Evening (60m)", tag:"Inputs", title:"Input types & attributes",
+     desc:"email/url/tel/number/date; placeholder vs label; help/error text.",
+     learned:"Right input for the job",
+     did:"Refactored inputs to proper types",
+     aws:"Native keyboards on mobile increase completion",
+     resume:"Mapped inputs to semantic types to reduce friction on mobile.",
+     links:[{label:"MDN input",url:MDN.inputs}]})
+);
+/* 9 */
+day("Week 2: Validation I",
+  S({slot:"Morning (60m)", tag:"Validation", title:"Constraint validation (native)",
+     desc:"required, pattern, minlength/maxlength, validity UI.",
+     learned:"HTML validation attributes",
+     did:"Added constraints + messages",
+     aws:"Less JS = lower bytes at edge",
+     resume:"Implemented native HTML validation with clear inline messaging.",
+     links:[{label:"Forms validation",url:MDN.validation}]}),
+  S({slot:"Evening (60m)", tag:"Validation", title:"Constraint Validation API",
+     desc:"checkValidity/reportValidity/setCustomValidity.",
+     learned:"Programmatic validation",
+     did:"Custom messages + aria-live",
+     aws:"Graceful enhancement for static pages",
+     resume:"Leveraged the Constraint Validation API with accessible error handling.",
+     links:[{label:"Constraint Validation API",url:MDN.formsAPI}]})
+);
+/* 10 */
+day("Week 2: Complex Forms",
+  S({slot:"Morning (60m)", tag:"UX", title:"Grouping, hints & errors",
+     desc:"helper text, aria-describedby, error summary pattern.",
+     learned:"Clear guidance & error handling",
+     did:"Added error summary & hints",
+     aws:"Reduced support on forms hosted in S3",
+     resume:"Introduced error summaries and helpful hints for complex forms.",
+     links:[{label:"MDN Forms",url:MDN.forms}]}),
+  S({slot:"Evening (45m)", tag:"File", title:"File inputs & accessibility",
+     desc:"accept/multiple/capture; progress patterns w/o JS.",
+     learned:"Usable uploads",
+     did:"Accessible file upload with labels",
+     aws:"Static presign UI for S3 uploads",
+     resume:"Delivered accessible file upload experiences with clear affordances.",
+     links:[{label:"MDN input",url:MDN.inputs}]})
+);
+/* 11 */
+day("Week 2: Search & Filters",
+  S({slot:"Morning (45m)", tag:"Search", title:"Search form semantics",
+     desc:"role=search, search inputs, submit/reset behavior.",
+     learned:"Discoverability patterns",
+     did:"Search box with label & SR text",
+     aws:"Improves site search UX on static docs",
+     resume:"Implemented accessible search with semantic form controls.",
+     links:[{label:"MDN Elements",url:MDN.elements}]}),
+  S({slot:"Evening (45m)", tag:"Patterns", title:"Filter groups & radios/checkboxes",
+     desc:"fieldset/legend for filters; keyboard order.",
+     learned:"Filter semantics",
+     did:"Built filter UI with legends",
+     aws:"Static e-commerce pages benefit too",
+     resume:"Built structured filter groups using fieldset/legend semantics.",
+     links:[{label:"MDN Forms",url:MDN.forms}]})
+);
+/* 12 */
+day("Week 2: Review + Mini-Project",
+  S({slot:"Morning (90m)", tag:"Build", title:"Form-heavy page",
+     desc:"Contact + signup; validation + hints.",
+     learned:"End-to-end form design",
+     did:"Built & validated complex form",
+     aws:"Ready for S3 backends or presigned posts",
+     resume:"Delivered an accessible, validated multi-section form.",
+     links:[{label:"Forms validation",url:MDN.validation}]}),
+  S({slot:"Evening (30m)", tag:"Polish", title:"Accessibility audit",
+     desc:"Keyboard nav, names/roles, error handling.",
+     learned:"a11y QA",
+     did:"Fixed 3 a11y issues",
+     aws:"—",
+     resume:"Ran accessibility QA and shipped fixes.",
+     links:[{label:"MDN a11y",url:MDN.a11y}]})
+);
+/* 13 */
+day("Week 2: Forms Quiz + Reflection",
+  S({slot:"Morning (30m)", tag:"Quiz", title:"Forms checkpoint",
+     desc:"Short quiz; capture weak spots.",
+     learned:"Gaps identified",
+     did:"Logged follow-ups",
+     aws:"—",
+     resume:"Maintained structured learning logs and improvement actions.",
+     links:[]}),
+  S({slot:"Evening (30m)", tag:"Read", title:"Docs dive",
+     desc:"Re-read MDN sections you missed.",
+     learned:"Reinforcement",
+     did:"Summarized notes",
+     aws:"—",
+     resume:"Consolidated documentation notes and action items.",
+     links:[{label:"MDN Forms",url:MDN.forms}]})
+);
+/* 14 */
+day("Week 2: Project Shipping",
+  S({slot:"Morning (60m)", tag:"Ship", title:"Deploy form demo",
+     desc:"Static form demo with validations + thank-you.",
+     learned:"Packaging & deploy",
+     did:"Deployed to local/Pages",
+     aws:"Ready for S3/CloudFront",
+     resume:"Shipped a validated, accessible form demo.",
+     links:[{label:"MDN Meta",url:MDN.meta}]}),
+  S({slot:"Evening (30m)", tag:"Retrospective", title:"Team review",
+     desc:"Write a README and review checklist.",
+     learned:"Review process",
+     did:"Created code review checklist",
+     aws:"Supervisory practice",
+     resume:"Authored HTML review checklist for team adoption.",
+     links:[]})
+);
+
+/* ---- Week 3: Media & Graphics ---- */
+day("Week 3: Responsive Images",
+  S({slot:"Morning (60m)", tag:"Images", title:"srcset/sizes & <picture>",
+     desc:"Art direction, DPR, fallback, width/height to fight CLS.",
+     learned:"Responsive image pipeline",
+     did:"Converted images to srcset/picture",
+     aws:"Smaller bytes through CloudFront",
+     resume:"Implemented responsive images with <picture> and srcset.",
+     links:[{label:"Responsive images",url:MDN.images},{label:"<picture>",url:MDN.picture}]}),
+  S({slot:"Evening (45m)", tag:"Perf", title:"Lazy-loading & decoding",
+     desc:"loading=lazy, fetchpriority, decoding=async.",
+     learned:"Perceived performance",
+     did:"Added lazy/priority hints",
+     aws:"Edge delivery efficiency",
+     resume:"Optimized image loading via lazy/priority/decoding attributes.",
+     links:[{label:"Resource hints",url:MDN.perfHints}]})
+);
+/* 16 */
+day("Week 3: Video & Audio",
+  S({slot:"Morning (60m)", tag:"Media", title:"<video> with captions",
+     desc:"tracks, kind=captions/subtitles, poster, controlslist.",
+     learned:"Accessible video",
+     did:"Added VTT tracks & poster",
+     aws:"Media on CloudFront w/ captions",
+     resume:"Delivered accessible video with caption tracks and proper controls.",
+     links:[{label:"MDN video",url:MDN.video}]}),
+  S({slot:"Evening (45m)", tag:"Audio", title:"<audio> best practices",
+     desc:"transcripts, controls, preload.",
+     learned:"Inclusive audio",
+     did:"Provided transcript & preload",
+     aws:"Better UX for docs & podcasts",
+     resume:"Shipped accessible audio players with transcripts.",
+     links:[{label:"MDN audio",url:MDN.audio}]})
+);
+/* 17 */
+day("Week 3: SVG Essentials",
+  S({slot:"Morning (60m)", tag:"SVG", title:"Inline SVG for icons/illustrations",
+     desc:"title/desc, focusability, <use>, viewBox/preserveAspectRatio.",
+     learned:"Sharp, accessible graphics",
+     did:"Replaced PNG icons with inline SVG",
+     aws:"Fewer requests via sprites",
+     resume:"Migrated to accessible inline SVG icon system.",
+     links:[{label:"MDN SVG",url:MDN.svg}]}),
+  S({slot:"Evening (45m)", tag:"SVG", title:"SVG and text/ARIA",
+     desc:"labelling techniques, roles, fallbacks.",
+     learned:"Screen reader compatibility",
+     did:"Added titles/roles in SVG",
+     aws:"—",
+     resume:"Hardened SVG accessibility with proper roles/titles.",
+     links:[{label:"MDN SVG",url:MDN.svg}]})
+);
+/* 18 */
+day("Week 3: Embeds & IFrames",
+  S({slot:"Morning (45m)", tag:"Embed", title:"<iframe> & sandbox",
+     desc:"title, sandbox, loading=lazy, allow attributes.",
+     learned:"Safe embeds",
+     did:"Hardened embeds w/ sandbox",
+     aws:"Security on public docs",
+     resume:"Hardened iframes with sandbox, titles, and lazy loading.",
+     links:[{label:"MDN Elements",url:MDN.elements}]}),
+  S({slot:"Evening (45m)", tag:"Meta", title:"Favicons & meta",
+     desc:"icons, theme-color, viewport, social sharing meta.",
+     learned:"Polished head metadata",
+     did:"Added favicons & OG/Twitter meta",
+     aws:"Better social previews for product pages",
+     resume:"Standardized head metadata and social cards.",
+     links:[{label:"MDN meta",url:MDN.meta}]})
+);
+/* 19 */
+day("Week 3: Review & Shipping",
+  S({slot:"Morning (90m)", tag:"Build", title:"Media-rich page",
+     desc:"Images, video w/ captions, audio w/ transcript.",
+     learned:"End-to-end media",
+     did:"Shipped media-rich demo",
+     aws:"Edge-optimized via CloudFront",
+     resume:"Built an accessible, media-rich page with captions/transcripts.",
+     links:[{label:"Media & Embedding",url:MDN.media}]}),
+  S({slot:"Evening (30m)", tag:"Polish", title:"A11y/perf review",
+     desc:"Check captions, lazy images, sizes attributes.",
+     learned:"QA cycles",
+     did:"Fixed media regressions",
+     aws:"—",
+     resume:"Ran targeted QA for media accessibility and performance.",
+     links:[]})
+);
+
+/* ---- Week 4: Performance & SEO ---- */
+day("Week 4: Resource Hints",
+  S({slot:"Morning (45m)", tag:"Perf", title:"preconnect/dns-prefetch/preload",
+     desc:"Use links to warm connections and load critical assets.",
+     learned:"Network warm-up & critical path",
+     did:"Added preconnect/preload for key assets",
+     aws:"Edge caches warm faster",
+     resume:"Optimized loading via preconnect/preload resource hints.",
+     links:[{label:"Resource Hints",url:MDN.perfHints}]}),
+  S({slot:"Evening (45m)", tag:"Perf", title:"Defer non-critical work",
+     desc:"defer/async scripts, blocking elements, order.",
+     learned:"Minimize main-thread block",
+     did:"Reordered scripts & attributes",
+     aws:"Faster TTFB/TTI via CloudFront",
+     resume:"Reduced render-blocking by deferring non-critical resources.",
+     links:[{label:"MDN Elements",url:MDN.elements}]})
+);
+/* 21 */
+day("Week 4: SEO & Metadata",
+  S({slot:"Morning (60m)", tag:"SEO", title:"Head tags that matter",
+     desc:"title/description, canonical, robots, language.",
+     learned:"Search-friendly HTML",
+     did:"Wrote meta/robots/canonical",
+     aws:"Better discoverability for docs",
+     resume:"Authored SEO-critical head tags for clarity and crawlability.",
+     links:[{label:"SEO Starter",url:MDN.seo},{label:"MDN meta",url:MDN.meta}]}),
+  S({slot:"Evening (60m)", tag:"SEO", title:"Structured data (JSON-LD)",
+     desc:"Organization/Breadcrumb/Article schemas.",
+     learned:"Rich results readiness",
+     did:"Added JSON-LD to sample pages",
+     aws:"Product/Docs previews improve CTR",
+     resume:"Implemented JSON-LD structured data for rich results.",
+     links:[{label:"Structured Data",url:MDN.structured}]})
+);
+/* 22 */
+day("Week 4: Sitemaps & Robots",
+  S({slot:"Morning (45m)", tag:"SEO", title:"Sitemaps & robots.txt",
+     desc:"Index control, disallow patterns, canonicals interplay.",
+     learned:"Crawl management",
+     did:"Drafted sitemap & robots",
+     aws:"Static sites easier to manage",
+     resume:"Created sitemap/robots configuration for static sites.",
+     links:[{label:"SEO Starter",url:MDN.seo}]}),
+  S({slot:"Evening (45m)", tag:"Perf", title:"Core Web Vitals & HTML",
+     desc:"LCP, CLS, INP—what HTML can influence.",
+     learned:"Vitals levers in HTML",
+     did:"Set sizes, lazy, priority on media",
+     aws:"CWV uplifts via HTML attributes",
+     resume:"Improved CWV via sizes, lazy-loading, and priority hints.",
+     links:[{label:"Resource Hints",url:MDN.perfHints}]})
+);
+/* 23 */
+day("Week 4: Review + Project",
+  S({slot:"Morning (90m)", tag:"Build", title:"SEO/perf passes on mini-site",
+     desc:"Apply head tags, JSON-LD, hints, lazy.",
+     learned:"Holistic improvements",
+     did:"Reduced bytes and improved CWV",
+     aws:"Edge delivery shines",
+     resume:"Audited and uplifted SEO & performance across pages.",
+     links:[{label:"SEO Starter",url:MDN.seo}]}),
+  S({slot:"Evening (30m)", tag:"Docs", title:"Document the checklist",
+     desc:"Create a repeatable HTML review checklist.",
+     learned:"Team enablement",
+     did:"Published checklist in README",
+     aws:"Supervisory artefact",
+     resume:"Published an HTML review checklist adopted by the team.",
+     links:[]})
+);
+
+/* ---- Week 5: Architecture & Supervision ---- */
+day("Week 5: Component Playbook",
+  S({slot:"Morning (60m)", tag:"Patterns", title:"Reusable HTML patterns",
+     desc:"Cards, media blocks, content lists, dialog patterns.",
+     learned:"Pattern library mindset",
+     did:"Codified 6 patterns in HTML",
+     aws:"Consistent static templates",
+     resume:"Codified reusable HTML patterns (cards/tables/dialogs).",
+     links:[{label:"MDN Elements",url:MDN.elements}]}),
+  S({slot:"Evening (60m)", tag:"Docs", title:"Usage guidelines",
+     desc:"When to use which tag, anti-patterns, a11y notes.",
+     learned:"Guardrails & governance",
+     did:"Wrote usage docs",
+     aws:"Enables wider team",
+     resume:"Wrote usage guidelines for patterns with a11y notes.",
+     links:[]})
+);
+/* 25 */
+day("Week 5: Code Reviews",
+  S({slot:"Morning (45m)", tag:"Review", title:"HTML review techniques",
+     desc:"Diff reading, a11y sniff tests, semantic checks.",
+     learned:"Reviewer toolkit",
+     did:"Reviewed 2 PRs with checklist",
+     aws:"Raises baseline quality",
+     resume:"Performed structured HTML reviews using a team checklist.",
+     links:[{label:"MDN a11y",url:MDN.a11y}]}),
+  S({slot:"Evening (45m)", tag:"Mentor", title:"Review feedback craft",
+     desc:"Actionable feedback, coaching tone, examples.",
+     learned:"Supervisory communication",
+     did:"Wrote exemplar feedback",
+     aws:"Team velocity ↑",
+     resume:"Delivered actionable, empathetic code-review feedback.",
+     links:[]})
+);
+/* 26 */
+day("Week 5: Docs & Demos",
+  S({slot:"Morning (60m)", tag:"Docs", title:"README + examples",
+     desc:"Self-contained examples for each pattern.",
+     learned:"Communication via examples",
+     did:"Committed examples folder",
+     aws:"Easier onboarding",
+     resume:"Documented HTML patterns with runnable examples.",
+     links:[]}),
+  S({slot:"Evening (60m)", tag:"Workshop", title:"Internal workshop",
+     desc:"Run a 30-min walkthrough with Q&A.",
+     learned:"Teaching & leadership",
+     did:"Hosted workshop & captured feedback",
+     aws:"Amplifies adoption",
+     resume:"Facilitated an internal HTML patterns workshop.",
+     links:[]})
+);
+/* 27 */
+day("Week 5: QA Systems",
+  S({slot:"Morning (45m)", tag:"QA", title:"Manual QA rubric",
+     desc:"Checklist for structure, a11y, media, forms.",
+     learned:"Repeatable QA",
+     did:"Added QA rubric to repo",
+     aws:"Production readiness",
+     resume:"Created a repeatable QA rubric for HTML deliverables.",
+     links:[]}),
+  S({slot:"Evening (45m)", tag:"Govern", title:"Governance hooks",
+     desc:"PR templates, ISSUE templates, definition of done.",
+     learned:"Process & governance",
+     did:"Added PR/ISSUE templates",
+     aws:"Scales reviews",
+     resume:"Introduced PR/issue templates and DoD for HTML work.",
+     links:[]})
+);
+
+/* ---- Week 6: Capstone & Leadership ---- */
+day("Week 6: Capstone Planning",
+  S({slot:"Morning (60m)", tag:"Plan", title:"Define capstone",
+     desc:"Choose a content site, set success metrics.",
+     learned:"Scoping & metrics",
+     did:"Wrote capstone plan",
+     aws:"Host via S3/CloudFront",
+     resume:"Scoped a capstone project with measurable outcomes.",
+     links:[]}),
+  S({slot:"Evening (60m)", tag:"Design", title:"Information architecture",
+     desc:"Sitemap, nav, breadcrumbs, URL scheme.",
+     learned:"IA foundations",
+     did:"Drafted site map & nav models",
+     aws:"SEO & UX foundations",
+     resume:"Designed IA with sitemap/nav/breadcrumbs.",
+     links:[]})
+);
+/* 29–42: execution, audits, hand-off */
+day("Week 6: Capstone Build I",
+  S({slot:"Morning (90m)", tag:"Build", title:"Build structure & pages",
+     desc:"Lay out base templates and pages.",
+     learned:"Assembly at scale",
+     did:"Built 6+ pages & base layout",
+     aws:"Ready for deployment",
+     resume:"Assembled a multi-page site with semantic templates.",
+     links:[{label:"Semantics",url:MDN.semantics}]}),
+  S({slot:"Evening (45m)", tag:"Media", title:"Add media correctly",
+     desc:"Responsive images + captions + transcripts.",
+     learned:"Media excellence",
+     did:"Integrated responsive media assets",
+     aws:"Bytes down, quality up",
+     resume:"Integrated responsive media with captions/transcripts.",
+     links:[{label:"Media",url:MDN.media}]})
+);
+day("Week 6: Capstone Build II",
+  S({slot:"Morning (60m)", tag:"Forms", title:"Add forms w/ validation",
+     desc:"Accessible fields, constraints, summaries.",
+     learned:"Robust forms",
+     did:"Shipped validated forms",
+     aws:"Conversion-friendly forms",
+     resume:"Delivered accessible, validated forms for the site.",
+     links:[{label:"Forms",url:MDN.forms}]}),
+  S({slot:"Evening (45m)", tag:"Meta", title:"Head, SEO & JSON-LD",
+     desc:"Titles, descriptions, canonicals, structured data.",
+     learned:"Search readiness",
+     did:"Added JSON-LD & meta",
+     aws:"Rich results & preview",
+     resume:"Implemented SEO meta & JSON-LD across pages.",
+     links:[{label:"Structured Data",url:MDN.structured}]})
+);
+day("Week 6: Performance Pass",
+  S({slot:"Morning (45m)", tag:"Perf", title:"Hints & priorities",
+     desc:"Preconnect/preload, lazy, sizes, decoding.",
+     learned:"CWV levers",
+     did:"Perf pass completed",
+     aws:"Edge delivery optimized",
+     resume:"Optimized loading with resource hints and media priorities.",
+     links:[{label:"Hints",url:MDN.perfHints}]}),
+  S({slot:"Evening (45m)", tag:"Audit", title:"A11y & keyboard QA",
+     desc:"Landmarks, focus, names/roles/values.",
+     learned:"Accessibility leadership",
+     did:"Logged & fixed issues",
+     aws:"Inclusive by default",
+     resume:"Led a11y audits and fixes across the capstone.",
+     links:[{label:"MDN a11y",url:MDN.a11y}]})
+);
+day("Week 6: Review & Docs",
+  S({slot:"Morning (60m)", tag:"Review", title:"Peer reviews",
+     desc:"Run 2 structured reviews with checklist.",
+     learned:"Supervisory review",
+     did:"Reviewed peers & merged PRs",
+     aws:"Quality gate",
+     resume:"Conducted structured HTML reviews and merged PRs.",
+     links:[]}),
+  S({slot:"Evening (60m)", tag:"Docs", title:"Hand-off package",
+     desc:"README, review checklist, QA rubric.",
+     learned:"Maintainability",
+     did:"Published hand-off docs",
+     aws:"Sustainable ops",
+     resume:"Published hand-off docs enabling team self-service.",
+     links:[]})
+);
+day("Week 6: Present & Ship",
+  S({slot:"Morning (45m)", tag:"Present", title:"Capstone presentation",
+     desc:"Tell the story: baseline → impact; demo.",
+     learned:"Executive communication",
+     did:"Presented to stakeholders",
+     aws:"—",
+     resume:"Presented HTML capstone; articulated business impact.",
+     links:[]}),
+  S({slot:"Evening (45m)", tag:"Ship", title:"Deploy & retro",
+     desc:"Deploy to chosen hosting; log lessons.",
+     learned:"Shipping discipline",
+     did:"Deployed & wrote retro",
+     aws:"S3/CloudFront or static hosting",
+     resume:"Deployed capstone and ran a blameless retrospective.",
+     links:[]})
+);
+
+/* ---------- State ---------- */
+const KEY = 'htmlMastery_v1';
 let state = JSON.parse(localStorage.getItem(KEY) || '{}');
-if (!state.idx && state.idx !== 0) state.idx = 0;
-if (!state.done) state.done = {};   // { dayIndex: true }
+if (typeof state.idx!=='number') state.idx = 0;
+if (!state.done) state.done = {};   // key: `${dayIndex}.${sessionIndex}`
 if (!state.streak) state.streak = 0;
 if (!state.last) state.last = null;
 
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+function sessionsTotal(){ return DAYS.length * 2; }
+function sessionsDone(){ return Object.keys(state.done).length; }
 function pct(n){ return Math.round(n*100); }
-function updateProgress(){
-  const total = DAYS.length;
-  const done = Object.keys(state.done).length;
-  const p = total ? done/total : 0;
-  els.pct.textContent = `${pct(p)}%`;
-  els.circle.style.setProperty('--pct', p*100);
-  els.daysDone.textContent = done;
-  els.daysTotal.textContent = total;
+
+function setDonut(){
+  const d = sessionsDone(), t = sessionsTotal();
+  const p = t? d/t : 0;
+  $('#done').textContent = d; $('#total').textContent = t;
+  $('#donutPct').textContent = `${pct(p)}%`;
+  $('#donut').style.setProperty('--pct', p*100);
 }
 
-/* Prevent parent cards from swallowing link clicks */
-document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href]');
-  if (!a) return;
-  e.stopImmediatePropagation();
-  // allow default; if target not set, open in new tab (keeps app state)
-  if (!a.target) { e.preventDefault(); window.open(a.href, '_blank', 'noopener'); }
-}, true);
-
-/* Render a day (anchors are real <a>, not text) */
 function renderDay(){
-  const i = Math.min(Math.max(state.idx,0), DAYS.length-1);
+  const i = Math.max(0, Math.min(state.idx, DAYS.length-1));
   state.idx = i;
-  const d = DAYS[i];
-  els.dayTitle.textContent = `Day ${i+1} of ${DAYS.length} — ${d.title}`;
-  els.taskTitle.textContent = d.item.title;
-  els.slotLabel.textContent = d.item.slot;
-  els.taskDesc.textContent = d.item.desc;
-  els.learned.textContent = d.item.learned;
-  els.did.textContent = d.item.did;
-  els.aws.textContent = d.item.aws;
-  els.dayCheck.classList.toggle('done', !!state.done[i]);
+  const day = DAYS[i];
+  $('#dayTitle').textContent = `Day ${i+1} of ${DAYS.length} — ${day.title}`;
 
-  els.links.innerHTML = '';
-  (d.item.links||[]).forEach(({label,url})=>{
-    const a = document.createElement('a');
-    a.href = url; a.target = '_blank'; a.rel = 'noopener';
-    a.className = 'tag'; a.textContent = label || url;
-    els.links.appendChild(a);
+  day.sessions.forEach((s, j)=>{
+    const E = els.s[j];
+    E.t.textContent = s.title;
+    E.slot.textContent = `${s.slot} • ${s.tag ? s.tag : ''}`;
+    E.d.textContent = s.desc;
+    E.learned.textContent = s.learned;
+    E.did.textContent = s.did;
+    E.aws.textContent = s.aws;
+    E.bullet.textContent = s.resume;
+    const key = `${i}.${j}`;
+    E.check.classList.toggle('done', !!state.done[key]);
+    E.links.innerHTML = '';
+    (s.links||[]).forEach(l=>{
+      const a = document.createElement('a');
+      a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+      a.className='tag'; a.textContent = l.label || l.url;
+      E.links.appendChild(a);
+    });
   });
 
-  updateProgress();
+  setDonut();
 }
 
-/* Wire UI */
-els.dayCheck.addEventListener('click', ()=>{
-  const i = state.idx;
-  if (state.done[i]) delete state.done[i];
+function toggleSession(j){
+  const key = `${state.idx}.${j}`;
+  if (state.done[key]) delete state.done[key];
   else {
-    state.done[i] = true;
+    state.done[key] = true;
+    // streak logic: increase if checked on a new day
     const today = new Date().toDateString();
-    if (state.last && new Date(state.last).toDateString() === (new Date(Date.now()-86400000)).toDateString()){
-      state.streak += 1;
-    } else if (!state.last || new Date(state.last).toDateString() !== today){
-      state.streak = Math.max(1, state.streak || 0);
+    if (!state.last || new Date(state.last).toDateString() !== today){
+      state.streak = (state.streak||0) + 1;
+      state.last = Date.now();
     }
-    state.last = Date.now();
   }
-  els.streak.textContent = state.streak || 0;
+  $('#streak').textContent = state.streak || 0;
   save(); renderDay();
+}
+
+/* ---------- Events ---------- */
+els.s[0].check.addEventListener('click', ()=>toggleSession(0));
+els.s[1].check.addEventListener('click', ()=>toggleSession(1));
+$('#prev').addEventListener('click', ()=>{ state.idx=Math.max(0,state.idx-1); save(); renderDay(); });
+$('#next').addEventListener('click', ()=>{ state.idx=Math.min(DAYS.length-1,state.idx+1); save(); renderDay(); });
+
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-copy]');
+  if (!btn) return;
+  const id = btn.getAttribute('data-copy');
+  const text = document.getElementById(id+'_bullet').textContent.trim();
+  navigator.clipboard?.writeText(text).then(()=>{ btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy Resume Bullet',1500) });
 });
-els.prevBtn.addEventListener('click', ()=>{ state.idx=Math.max(0,state.idx-1); save(); renderDay(); });
-els.nextBtn.addEventListener('click', ()=>{ state.idx=Math.min(DAYS.length-1,state.idx+1); save(); renderDay(); });
-els.resetBtn.addEventListener('click', ()=>{ if(confirm('Reset progress?')){ state={idx:0,done:{},streak:0,last:null}; save(); renderDay(); }});
-els.alertsBtn.addEventListener('click', async ()=>{
+
+$('#enableAlerts').addEventListener('click', async ()=>{
   try{
     if (!('Notification' in window)) return alert('Notifications not supported in this browser.');
-    const perm = await Notification.requestPermission();
-    if (perm==='granted') new Notification('HTML Mastery', { body:'Daily reminders enabled!' });
+    const p = await Notification.requestPermission();
+    if (p==='granted') new Notification('HTML Mastery', { body:'Daily reminders enabled!' });
   }catch(e){ console.warn(e); }
 });
 
-/* ---------------------------------
-   Sample days (replace with yours)
-----------------------------------*/
-const DAYS = [
-  {
-    title: "CORE: Structure & semantics",
-    item: {
-      title: "Semantic layout (header/nav/main/aside/footer)",
-      slot: "Morning (45m)",
-      desc: "Build a skeleton page and verify landmarks with a screen reader.",
-      learned: "Document structure, landmarks",
-      did: "Create semantic layout; add skip links",
-      aws: "Improves Lighthouse for S3/CloudFront sites.",
-      links: [
-        { label: "MDN: HTML elements", url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element" },
-        { label: "WAI: Landmarks", url: "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/" }
-      ]
-    }
-  },
-  {
-    title: "CORE: Forms & validation",
-    item: {
-      title: "Accessible forms",
-      slot: "Evening (60m)",
-      desc: "Labels, fieldsets, required/optional, client validation patterns.",
-      learned: "Form semantics + constraints",
-      did: "Signup form with validation UI + a11y",
-      aws: "Better conversion for static-hosted landing pages.",
-      links: [
-        { label: "MDN: Forms guide", url: "https://developer.mozilla.org/en-US/docs/Learn/Forms" },
-        { label: "Client-side validation", url: "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" }
-      ]
-    }
-  }
-];
+$('#reset').addEventListener('click', ()=>{
+  if (!confirm('Reset all progress?')) return;
+  state = { idx:0, done:{}, streak:0, last:null };
+  save(); renderDay();
+});
 
-/* init */
-els.streak.textContent = state.streak || 0;
+/* Mode: Free Study shows day picker */
+$('#mode').addEventListener('change', e=>{
+  const free = e.target.selectedIndex===1;
+  $('#picker').style.display = free ? '' : 'none';
+  $('#dayCard').style.display = free ? 'none' : '';
+});
+function buildPicker(){
+  els.grid.innerHTML='';
+  for(let i=0;i<DAYS.length;i++){
+    const d = document.createElement('button');
+    d.className='btn'; d.textContent = `Day ${i+1}`;
+    d.style.textAlign='center';
+    d.addEventListener('click', ()=>{ state.idx=i; save(); $('#mode').selectedIndex=0; $('#picker').style.display='none'; $('#dayCard').style.display=''; renderDay(); });
+    els.grid.appendChild(d);
+  }
+}
+
+/* ---------- Init ---------- */
+$('#streak').textContent = state.streak || 0;
+buildPicker();
 renderDay();
 </script>
 </body>
