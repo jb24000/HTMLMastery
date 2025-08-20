@@ -2,191 +2,95 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kubernetes / EKS Mastery</title>
-<meta name="theme-color" content="#0b1422" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HTML 6-Week Mastery</title>
+<meta name="theme-color" content="#101327" />
 
 <style>
   :root{
-    --bg-1:#08111e;
-    --bg-2:#0d1b2e;
-    --card:rgba(255,255,255,.06);
-    --card-2:rgba(255,255,255,.08);
+    /* purple HTML theme */
+    --bg-1:#0c0f24; --bg-2:#121738;
+    --card:rgba(255,255,255,.06); --card-2:rgba(255,255,255,.08);
     --border:rgba(255,255,255,.14);
-    --text:#eaf1ff;
-    --muted:#b9c3d6;
-    --accent:#53d6d1;      /* mint/cyan */
-    --accent-2:#7aa2ff;    /* blue */
-    --good:#49e1a7;
-    --warn:#ffc56d;
-    --bad:#ff7d8b;
-    --chip:#1a283f;
-    --shadow: 0 12px 40px rgba(0,0,0,.35);
+    --text:#eef0ff; --muted:#bfc7e6;
+    --accent:#6a5cff; --accent-2:#9a6bff;
+    --good:#49e1a7; --warn:#ffc56d; --bad:#ff7d8b;
+    --chip:#1a1f44; --shadow:0 12px 40px rgba(0,0,0,.35);
     --radius:18px;
   }
-
   html,body{height:100%}
   body{
-    margin:0;
-    font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", system-ui, "Apple Color Emoji", "Segoe UI Emoji";
-    color:var(--text);
+    margin:0; color:var(--text);
+    font-family: ui-sans-serif,-apple-system,Segoe UI,Roboto,Inter,Arial;
     background:
-      radial-gradient(1200px 800px at 10% -10%, #13243f 0%, transparent 60%),
-      radial-gradient(1200px 800px at 110% 0%, #1a2f55 0%, transparent 60%),
-      radial-gradient(1200px 800px at -10% 110%, #0f203f 0%, transparent 60%),
-      linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      radial-gradient(1200px 800px at 10% -10%, #1d2150 0%, transparent 60%),
+      radial-gradient(1200px 800px at 110% 0%, #1e2a6b 0%, transparent 60%),
+      radial-gradient(1200px 800px at -10% 110%, #152263 0%, transparent 60%),
+      linear-gradient(180deg,var(--bg-1),var(--bg-2));
   }
+  .page{max-width:980px;margin:24px auto 60px;padding:0 18px}
+  .header{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px;font-size:clamp(24px,2.6vw,34px)}
+  .header .badge{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;box-shadow:0 4px 14px rgba(154,107,255,.35)}
+  .sub{margin:4px 0 18px;color:var(--muted);font-size:14.5px}
+  .shell{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:26px;padding:24px;box-shadow:var(--shadow)}
 
-  .page{
-    max-width: 980px;
-    margin: 24px auto 60px;
-    padding: 0 18px;
-  }
+  /* top: progress donut on the left */
+  .top{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
+  @media (max-width:760px){.top{grid-template-columns:1fr;justify-items:center;text-align:center}}
+  .circle{width:170px;height:170px;border-radius:50%;
+    background:conic-gradient(var(--accent) calc(var(--pct,0)*1%), rgba(255,255,255,.12) 0);
+    display:grid;place-items:center;border:10px solid rgba(255,255,255,.06)}
+  .circle .inner{width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.06);display:grid;place-items:center;font-size:28px;font-weight:800;color:var(--text)}
 
-  .header{
-    display:flex; align-items:center; gap:12px;
-    font-weight:800; letter-spacing:.2px; font-size: clamp(24px, 2.6vw, 34px);
-  }
-  .header .badge{
-    width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#47d6d0,#7fa8ff);
-    display:grid;place-items:center;box-shadow:0 4px 14px rgba(83,214,209,.35);
-  }
-  .sub{
-    margin:4px 0 18px;
-    color:var(--muted);
-    font-size:14.5px;
-  }
+  .controls{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  @media (max-width:560px){.controls{grid-template-columns:1fr}}
+  .select{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--text);display:flex;align-items:center;gap:10px}
+  .select select{background:transparent;color:var(--text);border:none;outline:none;width:100%;font-size:15px}
 
-  .shell{
-    background: rgba(255,255,255,.04);
-    border:1px solid var(--border);
-    border-radius: 26px;
-    padding: 24px;
-    box-shadow: var(--shadow);
-  }
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px}
+  .stat .k{color:var(--muted);font-size:12.5px}
+  .stat .v{font-size:28px;font-weight:800;margin-top:6px}
 
-  /* Progress circle up top */
-  .top{
-    display:grid;
-    grid-template-columns: 200px 1fr;
-    gap: 20px;
-    align-items:center;
-  }
-  @media (max-width: 760px){
-    .top{ grid-template-columns: 1fr; justify-items:center; text-align:center; }
-  }
+  .bar{margin:18px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px}
+  .btn{background:var(--chip);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:10px 16px;cursor:pointer;font-weight:700}
+  .btn.acc{background:linear-gradient(135deg,var(--accent),var(--accent-2));border:none;color:#0d0f21}
+  .btn.ghost{background:transparent}
+  .btn.small{padding:8px 12px;font-size:13px}
 
-  .circle{
-    width: 170px; height: 170px; border-radius: 50%;
-    background:
-      conic-gradient(var(--accent) calc(var(--pct,0)*1%), rgba(255,255,255,.12) 0);
-    display:grid; place-items:center;
-    border: 10px solid rgba(255,255,255,.06);
-  }
-  .circle .inner{
-    width: 130px; height: 130px; border-radius: 50%;
-    background: rgba(255,255,255,.06);
-    display:grid;place-items:center;
-    font-size: 28px; font-weight: 800; color: var(--text);
-  }
+  .daily{margin-top:14px;background:var(--card-2);border:1px solid var(--border);border-radius:16px;padding:16px}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .h2{font-weight:900;font-size:18px}
+  .nav{display:flex;gap:8px}
+  .bullet{display:flex;align-items:flex-start;gap:10px;margin-top:8px}
+  .radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);margin-top:2px;cursor:pointer}
+  .radio.done{background:linear-gradient(135deg,var(--good),#9ff0c9);border-color:transparent}
+  .title{font-weight:800}
+  .meta{color:var(--muted);font-size:12.5px;margin-left:4px}
+  .panel{background:rgba(255,255,255,.05);border:1px dashed var(--border);border-radius:12px;padding:12px;margin:12px 0 0 28px}
+  .panel .rowK{color:var(--muted);font-size:12px}
+  .panel .rowV{margin:4px 0 8px;font-weight:700}
 
-  .controls{
-    display:grid; gap:14px;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 560px){ .controls{ grid-template-columns: 1fr; } }
-  .select{
-    background: var(--card); border:1px solid var(--border);
-    border-radius: 12px; padding: 10px 12px; color:var(--text);
-    display:flex; align-items:center; gap:10px;
-  }
-  .select select{
-    background:transparent; color:var(--text); border:none; outline:none; width:100%;
-    font-size:15px;
-  }
+  /* Guarantee links are clickable and visible */
+  .daily a{color:var(--accent-2);text-decoration:underline;font-weight:700;position:relative;z-index:3}
+  .daily a:hover{text-decoration:none}
 
-  .stats{
-    display:grid; grid-template-columns: 1fr 1fr; gap:16px;
-    margin-top: 18px;
-  }
-  .stat{
-    background: var(--card); border:1px solid var(--border); border-radius: 14px;
-    padding: 16px;
-  }
-  .stat .k{ color:var(--muted); font-size:12.5px; }
-  .stat .v{ font-size: 28px; font-weight: 800; margin-top:6px; }
-
-  .bar{
-    margin: 18px 0 6px;
-    display:flex; align-items:center; justify-content: space-between;
-    gap: 10px;
-    background: var(--card); border:1px solid var(--border); border-radius: 14px; padding: 12px;
-  }
-  .btn{
-    background: var(--chip); border:1px solid var(--border); color:var(--text);
-    border-radius: 999px; padding: 10px 16px; cursor:pointer; font-weight:700;
-  }
-  .btn.acc{ background: linear-gradient(135deg, var(--accent), var(--accent-2)); border:none; color:#06101b; }
-  .btn.ghost{ background: transparent; }
-  .btn.small{ padding: 8px 12px; font-size: 13px; }
-
-  /* Daily card */
-  .daily{
-    margin-top: 14px;
-    background: var(--card-2); border:1px solid var(--border); border-radius: 16px; padding: 16px;
-  }
-  .row{
-    display:flex; align-items:center; justify-content: space-between; gap:10px; flex-wrap: wrap;
-  }
-  .h2{ font-weight: 900; font-size: 18px; }
-  .nav{ display:flex; gap:8px; }
-  .chip{
-    background: var(--chip); color: var(--text); border:1px solid var(--border);
-    padding: 7px 10px; border-radius: 12px; font-weight:700; font-size: 12px; display:inline-flex; gap:8px; align-items:center;
-  }
-  .bullet{
-    display:flex; align-items: flex-start; gap: 10px; margin-top: 8px;
-  }
-  .radio{
-    width:18px;height:18px;border-radius:50%; border:2px solid var(--muted); margin-top: 2px; cursor:pointer;
-  }
-  .radio.done{ background: linear-gradient(135deg,var(--good),#9ff0c9); border-color:transparent; }
-  .title{ font-weight:800; }
-  .meta{ color:var(--muted); font-size:12.5px; margin-left: 4px; }
-
-  .panel{
-    background: rgba(255,255,255,.05); border:1px dashed var(--border);
-    border-radius: 12px; padding: 12px; margin: 12px 0 0 28px;
-  }
-  .panel .rowK{ color:var(--muted); font-size: 12px; }
-  .panel .rowV{ margin: 4px 0 8px; font-weight: 700; }
-
-  .daily a{
-    color: var(--accent-2);
-    text-decoration: underline;
-    font-weight: 700;
-  }
-  .daily a:hover{ text-decoration: none; }
-
-  .tags{ display:flex; gap:8px; flex-wrap: wrap; margin: 8px 0 0 28px; }
-  .tag{ background: rgba(122,162,255,.15); color:#cfe0ff; border:1px solid rgba(122,162,255,.35); padding:6px 10px; border-radius: 999px; font-weight:800; font-size: 12px; }
-
-  .muted{ color:var(--muted); }
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0 28px}
+  .tag{background:rgba(154,107,255,.15);color:#e8dcff;border:1px solid rgba(154,107,255,.35);padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
+  .muted{color:var(--muted)}
 </style>
 </head>
 <body>
   <div class="page">
-
     <div class="header">
-      <div class="badge">★</div>
-      Kubernetes / EKS Mastery
+      <div class="badge">⌁</div>
+      HTML 6-Week Mastery
     </div>
-    <div class="sub">Core (30d) + Architect Add-On (15d) — with AWS tie-ins</div>
+    <div class="sub">6-week sprint • core HTML foundations → forms, media, semantics, a11y, performance • with AWS-resume tie-ins</div>
 
     <div class="shell">
-
-      <!-- TOP: Progress donut on the LEFT (or first on small screens) -->
       <div class="top">
+        <!-- Progress donut at the top/left -->
         <div class="circle" id="progressCircle" style="--pct:0">
           <div class="inner" id="progressPct">0%</div>
         </div>
@@ -196,17 +100,15 @@
             <div class="select">
               <span class="muted" style="font-weight:700">Mode</span>
               <select id="modeSelect">
-                <option>Guided Path (Core → Architect)</option>
-                <option>Core Only</option>
-                <option>Architect Add-On Only</option>
+                <option>Guided Sprint (6 weeks)</option>
+                <option>Free Study</option>
               </select>
             </div>
             <div class="select">
               <span class="muted" style="font-weight:700">Track</span>
               <select id="trackSelect">
-                <option value="core">Core (30 days)</option>
-                <option value="architect">Architect Add-On (15 days)</option>
-                <option value="combined">Combined (45 days)</option>
+                <option value="core">Full Track (6 weeks)</option>
+                <option value="core-4">Fast Track (4 weeks)</option>
               </select>
             </div>
           </div>
@@ -232,10 +134,10 @@
         </div>
       </div>
 
-      <!-- DAILY CARD -->
+      <!-- Daily card (same format as your attachment) -->
       <div class="daily" id="dailyCard">
         <div class="row">
-          <div class="h2" id="dayTitle">Day 1 of 2 — CORE: Day 1: Setup & kubectl</div>
+          <div class="h2" id="dayTitle">Day 1 of 2 — CORE: Structure & semantics</div>
           <div class="nav">
             <button class="btn small" id="prevBtn">← Prev</button>
             <button class="btn small" id="nextBtn">Next →</button>
@@ -245,74 +147,31 @@
         <div class="bullet">
           <div class="radio" id="dayCheck"></div>
           <div>
-            <div class="title" id="taskTitle">Local cluster (kind/minikube)</div>
-            <div class="meta"><span class="chip">🔧 Setup</span> <span id="slotLabel">Morning (45m)</span></div>
-            <div class="muted" id="taskDesc">Install kind or minikube; verify kubectl.</div>
+            <div class="title" id="taskTitle">Semantic layout (header/nav/main/aside/footer)</div>
+            <div class="meta"><span class="tag">Setup</span> <span id="slotLabel">Morning (45m)</span></div>
+            <div class="muted" id="taskDesc">Build a skeleton page and verify landmarks with a screen reader.</div>
 
             <div class="panel">
               <div class="rowK">What you learned</div>
-              <div class="rowV" id="learned">Install & verify</div>
+              <div class="rowV" id="learned">Document structure, landmarks</div>
               <div class="rowK">What you did</div>
-              <div class="rowV" id="did">Create cluster; kubectl get nodes</div>
+              <div class="rowV" id="did">Create semantic layout; skip links</div>
               <div class="rowK">AWS tie-in</div>
-              <div class="rowV" id="aws">Mirrors EKS kubeconfig switching.</div>
+              <div class="rowV" id="aws">Improves Lighthouse scores for static sites on S3 + CloudFront.</div>
             </div>
 
-            <div class="tags" id="links">
-              <!-- clickable anchors inserted here -->
-            </div>
+            <div class="tags" id="links"></div>
           </div>
         </div>
       </div>
 
-    </div> <!-- /shell -->
-  </div> <!-- /page -->
+    </div><!-- /shell -->
+  </div><!-- /page -->
 
 <script>
 /* ------------------------------
-   K/EKS data (sample first 2 days)
+   Small state + helpers
 ---------------------------------*/
-const DAYS = [
-  {
-    track: "core",
-    title: "CORE: Day 1: Setup & kubectl",
-    itemsTotal: 1,
-    item: {
-      title: "Local cluster (kind/minikube)",
-      slot: "Morning (45m)",
-      tag: "Setup",
-      desc: "Install kind or minikube; verify kubectl.",
-      learned: "Install & verify",
-      did: "Create cluster; kubectl get nodes",
-      aws: "Mirrors EKS kubeconfig switching.",
-      links: [
-        { label: "kind", url: "https://kind.sigs.k8s.io/" },
-        { label: "minikube", url: "https://minikube.sigs.k8s.io/docs/start/" },
-        { label: "kubectl", url: "https://kubernetes.io/docs/reference/kubectl/" }
-      ]
-    }
-  },
-  {
-    track: "core",
-    title: "CORE: Day 2: Workloads & Services",
-    itemsTotal: 1,
-    item: {
-      title: "Deploy app + expose",
-      slot: "Evening (60m)",
-      tag: "Hands-on",
-      desc: "Create Deployment, scale replicas; expose via Service (ClusterIP → NodePort).",
-      learned: "Pods vs Deployments; stable networking via Services.",
-      did: "kubectl create deploy; kubectl scale; kubectl expose; port-forward test.",
-      aws: "Maps to EKS + AWS Load Balancer Controller (later Ingress).",
-      links: [
-        { label: "Quickstart Deployments", url: "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" },
-        { label: "Services", url: "https://kubernetes.io/docs/concepts/services-networking/service/" }
-      ]
-    }
-  }
-];
-// To expand later: add the remaining Core days + Architect add-on days and set daysTotal accordingly.
-
 const els = {
   pct: document.getElementById('progressPct'),
   circle: document.getElementById('progressCircle'),
@@ -331,37 +190,42 @@ const els = {
   prevBtn: document.getElementById('prevBtn'),
   nextBtn: document.getElementById('nextBtn'),
   alertsBtn: document.getElementById('alertsBtn'),
-  resetBtn: document.getElementById('resetBtn'),
-  trackSelect: document.getElementById('trackSelect'),
-  modeSelect: document.getElementById('modeSelect')
+  resetBtn: document.getElementById('resetBtn')
 };
 
-const KEY = 'keks_progress_v1';
+const KEY = 'html6_progress_v1';
 let state = JSON.parse(localStorage.getItem(KEY) || '{}');
-if (!state.idx) state.idx = 0;
+if (!state.idx && state.idx !== 0) state.idx = 0;
 if (!state.done) state.done = {};   // { dayIndex: true }
 if (!state.streak) state.streak = 0;
 if (!state.last) state.last = null;
 
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
-
-function fmtPct(n){ return Math.round(n*100); }
-
+function pct(n){ return Math.round(n*100); }
 function updateProgress(){
   const total = DAYS.length;
-  const doneCount = Object.keys(state.done).length;
-  const pct = total ? (doneCount/total) : 0;
-  els.pct.textContent = `${fmtPct(pct)}%`;
-  els.circle.style.setProperty('--pct', (pct*100));
-  els.daysDone.textContent = doneCount;
+  const done = Object.keys(state.done).length;
+  const p = total ? done/total : 0;
+  els.pct.textContent = `${pct(p)}%`;
+  els.circle.style.setProperty('--pct', p*100);
+  els.daysDone.textContent = done;
   els.daysTotal.textContent = total;
 }
 
+/* Prevent parent cards from swallowing link clicks */
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href]');
+  if (!a) return;
+  e.stopImmediatePropagation();
+  // allow default; if target not set, open in new tab (keeps app state)
+  if (!a.target) { e.preventDefault(); window.open(a.href, '_blank', 'noopener'); }
+}, true);
+
+/* Render a day (anchors are real <a>, not text) */
 function renderDay(){
   const i = Math.min(Math.max(state.idx,0), DAYS.length-1);
   state.idx = i;
   const d = DAYS[i];
-
   els.dayTitle.textContent = `Day ${i+1} of ${DAYS.length} — ${d.title}`;
   els.taskTitle.textContent = d.item.title;
   els.slotLabel.textContent = d.item.slot;
@@ -369,29 +233,25 @@ function renderDay(){
   els.learned.textContent = d.item.learned;
   els.did.textContent = d.item.did;
   els.aws.textContent = d.item.aws;
+  els.dayCheck.classList.toggle('done', !!state.done[i]);
 
-  // Done toggle
-  const isDone = !!state.done[i];
-  els.dayCheck.classList.toggle('done', isDone);
-
-  // Links (clickable anchors)
   els.links.innerHTML = '';
   (d.item.links||[]).forEach(({label,url})=>{
     const a = document.createElement('a');
-    a.href = url; a.target="_blank"; a.rel="noopener";
-    a.className = 'tag'; a.textContent = label;
+    a.href = url; a.target = '_blank'; a.rel = 'noopener';
+    a.className = 'tag'; a.textContent = label || url;
     els.links.appendChild(a);
   });
 
   updateProgress();
 }
 
+/* Wire UI */
 els.dayCheck.addEventListener('click', ()=>{
   const i = state.idx;
   if (state.done[i]) delete state.done[i];
   else {
     state.done[i] = true;
-    // streak update (simple daily check-in)
     const today = new Date().toDateString();
     if (state.last && new Date(state.last).toDateString() === (new Date(Date.now()-86400000)).toDateString()){
       state.streak += 1;
@@ -403,33 +263,54 @@ els.dayCheck.addEventListener('click', ()=>{
   els.streak.textContent = state.streak || 0;
   save(); renderDay();
 });
-
-els.prevBtn.addEventListener('click', ()=>{
-  state.idx = Math.max(0, state.idx-1);
-  save(); renderDay();
-});
-els.nextBtn.addEventListener('click', ()=>{
-  state.idx = Math.min(DAYS.length-1, state.idx+1);
-  save(); renderDay();
-});
-
-els.resetBtn.addEventListener('click', ()=>{
-  if (!confirm('Reset progress?')) return;
-  state = { idx:0, done:{}, streak:0, last:null };
-  save(); renderDay();
-});
-
+els.prevBtn.addEventListener('click', ()=>{ state.idx=Math.max(0,state.idx-1); save(); renderDay(); });
+els.nextBtn.addEventListener('click', ()=>{ state.idx=Math.min(DAYS.length-1,state.idx+1); save(); renderDay(); });
+els.resetBtn.addEventListener('click', ()=>{ if(confirm('Reset progress?')){ state={idx:0,done:{},streak:0,last:null}; save(); renderDay(); }});
 els.alertsBtn.addEventListener('click', async ()=>{
   try{
     if (!('Notification' in window)) return alert('Notifications not supported in this browser.');
     const perm = await Notification.requestPermission();
-    if (perm === 'granted'){
-      new Notification('K/EKS Mastery', { body:'Nice! I’ll remind you each day.' });
-    }
+    if (perm==='granted') new Notification('HTML Mastery', { body:'Daily reminders enabled!' });
   }catch(e){ console.warn(e); }
 });
 
-// init
+/* ---------------------------------
+   Sample days (replace with yours)
+----------------------------------*/
+const DAYS = [
+  {
+    title: "CORE: Structure & semantics",
+    item: {
+      title: "Semantic layout (header/nav/main/aside/footer)",
+      slot: "Morning (45m)",
+      desc: "Build a skeleton page and verify landmarks with a screen reader.",
+      learned: "Document structure, landmarks",
+      did: "Create semantic layout; add skip links",
+      aws: "Improves Lighthouse for S3/CloudFront sites.",
+      links: [
+        { label: "MDN: HTML elements", url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element" },
+        { label: "WAI: Landmarks", url: "https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/" }
+      ]
+    }
+  },
+  {
+    title: "CORE: Forms & validation",
+    item: {
+      title: "Accessible forms",
+      slot: "Evening (60m)",
+      desc: "Labels, fieldsets, required/optional, client validation patterns.",
+      learned: "Form semantics + constraints",
+      did: "Signup form with validation UI + a11y",
+      aws: "Better conversion for static-hosted landing pages.",
+      links: [
+        { label: "MDN: Forms guide", url: "https://developer.mozilla.org/en-US/docs/Learn/Forms" },
+        { label: "Client-side validation", url: "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" }
+      ]
+    }
+  }
+];
+
+/* init */
 els.streak.textContent = state.streak || 0;
 renderDay();
 </script>
