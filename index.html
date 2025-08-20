@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- BUILD: HTML 6-Week Mastery v1 -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#6a5cff" />
+  <title>HTML 6-Week Mastery</title>
+  <link rel="manifest" href="manifest.json?v=1">
+  <style>
+    :root{
+      --bg1:#6a5cff; --bg2:#9a6bff;
+      --panel:rgba(255,255,255,.12); --panelBorder:rgba(255,255,255,.25);
+      --panelHover:rgba(255,255,255,.18);
+      --text:#fff; --muted:rgba(255,255,255,.92);
+      --good:#16a34a; --warn:#f59e0b; --bad:#ef4444;
+      --chip:#e9e5ff; --chipText:#3b2aa5;
+      --primary:#6a5cff; --primaryDark:#4e3dff;
+      --cardShadow:0 14px 40px rgba(0,0,0,.22)
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      min-height:100vh; background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex; flex-direction:column; align-items:center; color:var(--text)
+    }
+    .container{width:100%; max-width:1080px; padding:22px}
+    header{padding:28px 18px 18px; text-align:center}
+    header h1{font-weight:900; font-size:2.4rem; letter-spacing:.2px}
+    header .sub{opacity:.95; margin-top:8px}
+
+    .stats{display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:18px 0}
+    .stat{
+      background:var(--panel); border:1px solid var(--panelBorder); border-radius:16px;
+      padding:16px 20px; min-width:190px; text-align:center; box-shadow:var(--cardShadow)
+    }
+    .stat-label{opacity:.95; font-size:.9rem}
+    .stat-value{font-size:2rem; font-weight:900}
+
+    .ring{
+      width:160px; height:160px; margin:0 auto 16px; border-radius:50%;
+      background:
+        conic-gradient(#fff var(--deg,0deg), rgba(255,255,255,.22) 0deg);
+      display:grid; place-items:center;
+      border:6px solid rgba(255,255,255,.14)
+    }
+    .ring span{
+      width:130px; height:130px; border-radius:50%; background:#fff;
+      color:#333; display:grid; place-items:center; font-weight:900; font-size:1.8rem
+    }
+
+    .install{
+      display:none; align-items:center; justify-content:space-between; gap:14px;
+      background:var(--panel); border:1px solid var(--panelBorder); border-radius:14px;
+      padding:14px 16px; box-shadow:var(--cardShadow); margin:8px 0 18px
+    }
+    .btn{
+      border:none; color:#fff; background:linear-gradient(135deg,var(--primary),var(--primaryDark));
+      padding:12px 18px; font-weight:800; letter-spacing:.4px; border-radius:22px;
+      cursor:pointer
+    }
+    .btn.secondary{background:linear-gradient(135deg,#6b7280,#4b5563)}
+    .btn.small{padding:8px 14px; border-radius:16px; font-weight:700}
+
+    .mode{
+      display:flex; gap:8px; align-items:center; justify-content:center; margin:6px 0 18px
+    }
+    .toggle{
+      background:var(--panel); border:1px solid var(--panelBorder); border-radius:999px;
+      padding:4px; display:flex; gap:6px
+    }
+    .pill{
+      padding:8px 14px; border-radius:999px; font-weight:800; cursor:pointer; opacity:.9
+    }
+    .pill.active{background:#fff; color:#333}
+
+    .daycard{
+      background:#fff; color:#333; border-radius:18px; padding:22px; box-shadow:var(--cardShadow)
+    }
+    .dayhead{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .daytitle{font-weight:900; font-size:1.2rem}
+    .chips{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{background:var(--chip); color:var(--chipText); font-weight:800; border-radius:12px; padding:6px 10px}
+
+    .tasks{margin-top:12px}
+    .tasks h4{font-size:1rem; margin-bottom:6px}
+    .tasks ul{margin-left:18px}
+    .tasks li{margin:6px 0}
+
+    .resume{
+      background:#f7f7ff; border:1px dashed #c9c6ff; border-radius:12px; padding:12px; margin-top:12px
+    }
+
+    .nav{display:flex; gap:10px; margin-top:16px}
+    .row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px}
+    @media (max-width:840px){ .row{grid-template-columns:1fr} }
+
+    .muted{opacity:.85}
+    .center{text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧱 HTML 6-Week Mastery</h1>
+    <div class="sub">Build true expert-level HTML in 42 days • daily, audit-driven tasks • Learn/Challenge modes</div>
+  </header>
+
+  <div class="container">
+    <!-- Install -->
+    <div id="install" class="install">
+      <div>📱 <strong>Install</strong> this app for offline use</div>
+      <div>
+        <button id="installBtn" class="btn small">Install App</button>
+        <button id="dismissBtn" class="btn small secondary">Later</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row">
+      <div class="stat">
+        <div class="ring" id="ring"><span id="pct">0%</span></div>
+        <div class="center muted">Overall Progress</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="streak">0</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="done">0</div>
+        <div class="stat-label">Days Completed</div>
+      </div>
+    </div>
+
+    <!-- Mode toggle -->
+    <div class="mode">
+      <div class="muted">Mode:</div>
+      <div class="toggle" id="modeToggle">
+        <div class="pill active" data-mode="learn">Learn</div>
+        <div class="pill" data-mode="challenge">Challenge</div>
+      </div>
+    </div>
+
+    <!-- Day card -->
+    <div class="daycard">
+      <div class="dayhead">
+        <div class="daytitle" id="dayTitle">Day 1</div>
+        <div class="chips">
+          <span class="chip" id="weekChip">Week 1</span>
+          <span class="chip" id="modeChip">Learn</span>
+        </div>
+      </div>
+
+      <div class="tasks">
+        <h4>What to do</h4>
+        <ul id="todo"></ul>
+      </div>
+
+      <div class="tasks">
+        <h4>How it ties to AWS</h4>
+        <div id="aws" class="muted"></div>
+      </div>
+
+      <div class="resume">
+        <strong>Resume bullet:</strong>
+        <div id="resumeText"></div>
+        <div style="margin-top:8px">
+          <button class="btn small" id="copyResume">Copy</button>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn secondary" id="prev">Prev</button>
+        <button class="btn" id="complete">Mark Complete</button>
+        <button class="btn secondary" id="next">Next</button>
+      </div>
+    </div>
+
+    <p class="center muted" style="margin-top:12px">Tip: Challenge mode adds a “rebuild from blank file” rule for each day.</p>
+  </div>
+
+  <!-- ====== Data (42 days) ====== -->
+  <script>
+    const DAYS = [
+      // Week 1 — Core Semantics & Page Anatomy
+      {t:'Project scaffolding', w:1, do:['Create base template: <!doctype>, html[lang], sane <head>, <main> & <footer>, skip-link','Add a11y/SEO checklists to repo; run W3C validator once'], aws:'Create S3 bucket + CloudFront distribution for static hosting; upload base page.', r:'Built accessible HTML boilerplate with landmarks & skip nav; deployed to S3/CloudFront.'},
+      {t:'Head metadata that matters', w:1, do:['Add charset, viewport, canonical, robots, theme-color','Wire favicons/app icons (light/dark)'], aws:'Serve icons with correct Content-Type and long cache; use versioned filenames.', r:'Implemented progressive metadata set incl. canonical, robots and app icons.'},
+      {t:'Text semantics', w:1, do:['Headings outline, lists, blockquote/cite, code/pre/kbd, abbr, time','Publish article page and pass W3C validation'], aws:'Invalidate CloudFront to see changes; confirm correct MIME types.', r:'Authored semantic article with correct outline and inline semantics.'},
+      {t:'Landmarks & layout', w:1, do:['header/nav/main/aside/article/section/footer structure','Breadcrumb nav with current-page semantics'], aws:'Optional: custom domain via Route 53 + CloudFront.', r:'Structured multi-page layout with accessible navigation and breadcrumbs.'},
+      {t:'Links & navigation details', w:1, do:['Use rel=noopener, external, prev/next where appropriate','Add in-page anchors and safe file downloads'], aws:'Set Content-Disposition for downloads in S3 object metadata.', r:'Implemented robust linking with security-minded rel attributes.'},
+      {t:'Images & figures', w:1, do:['Alt text decision tree; figure/figcaption','loading=lazy, decoding and fetchpriority'], aws:'Upload multiple resolutions; enable gzip/Brotli in CloudFront.', r:'Optimized media with semantic figures and native lazy loading.'},
+      {t:'Week 1 review', w:1, do:['Run Lighthouse + WAVE/axe; fix issues to 90+ A11y/SEO','Document what changed in README'], aws:'CloudFront invalidation + check logs.', r:'Achieved ≥90 Lighthouse A11y/SEO across the mini-site.'},
+
+      // Week 2 — Accessibility Deep-Dive (Forms First)
+      {t:'Form foundations', w:2, do:['Labels paired with controls; fieldset/legend','Use autocomplete tokens for common fields'], aws:'Host demo; verify forms render behind CloudFront.', r:'Built accessible form with correct labels and autocomplete.'},
+      {t:'Errors & help text', w:2, do:['Inline errors connected to inputs; aria-live region','Constraint validation messages with helpful copy'], aws:'Fast invalidations to preview updates.', r:'Implemented progressive error messaging with aria-live announcements.'},
+      {t:'Keyboard flows', w:2, do:['Tab order, focus visible, skip targets','Audit no focus traps; avoid tabindex > 0'], aws:'(Optional) Use CloudWatch Synthetics for basic nav check.', r:'Ensured full keyboard operability and visible focus management.'},
+      {t:'ARIA where HTML cannot', w:2, do:['Implement one ARIA APG pattern (tabs/disclosure)','Provide native HTML alternative'], aws:'Deploy both versions; note trade-offs in README.', r:'Applied APG patterns selectively; preferred native elements where possible.'},
+      {t:'Color & contrast', w:2, do:['Ensure ≥4.5:1 contrast; non-color cues','Never remove focus outlines; design token audit'], aws:'Cache-bust CSS/images with version query.', r:'Fixed contrast and focus issues per WCAG 2.1 AA.'},
+      {t:'Screen reader test', w:2, do:['NVDA/VoiceOver read-through; fix naming and order','Confirm announcements for errors and dialogs'], aws:'Publish SR notes page for the project.', r:'Verified SR reading order and live announcements on Windows/macOS.'},
+      {t:'Forms capstone (multi-step)', w:2, do:['HTML-first multi-step flow that preserves state','Proper submit buttons and back/next semantics'], aws:'Static routes in S3 (or simple prefixes).', r:'Shipped multi-step accessible form with semantic validation.'},
+
+      // Week 3 — Data, Tables, SVG, i18n
+      {t:'Data tables', w:3, do:['Use caption, th, scope, headers/id for complex tables','Add summary paragraph above complex data'], aws:'Enable compression for CSV/JSON assets if any.', r:'Built accessible tables with correct headers/scope usage.'},
+      {t:'Responsive tables', w:3, do:['Create overflow, stacked, and summary variants','Keep semantics intact in all variants'], aws:'Perf compare page via CloudFront.', r:'Implemented responsive table patterns without losing accessibility.'},
+      {t:'SVG basics', w:3, do:['Inline SVG with title/desc; <symbol> sprite','aria-hidden for decorative icons'], aws:'Serve SVG with proper MIME and long cache.', r:'Delivered accessible SVG icon system using symbols and titles.'},
+      {t:'Media & transcripts', w:3, do:['<video>/<audio> with <track> captions','Provide transcript page or section'], aws:'Host .vtt with correct CORS & MIME.', r:'Added captions/tracks and transcript links for media assets.'},
+      {t:'i18n & l10n', w:3, do:['lang / dir attributes, hreflang; localized dates','Right-to-left check and number formats'], aws:'Create /fr/ or /es/ prefixes in S3 for variants.', r:'Internationalized pages with correct language & directional metadata.'},
+      {t:'Week 3 review (a11y+i18n)', w:3, do:['axe + manual i18n pass; fix any regressions','Update checklists and docs'], aws:'Invalidate and redeploy.', r:'Closed a11y/i18n issues discovered during review.'},
+      {t:'Docs layout mini-project', w:3, do:['TOC sidebar + content using pure HTML','Keyboard jump links to each section'], aws:'Pretty URLs optional with CloudFront Functions.', r:'Shipped semantic documentation layout with accessible TOC.'},
+
+      // Week 4 — SEO & Structured Data
+      {t:'Crawl controls', w:4, do:['robots.txt + meta robots; canonical strategy','Pagination rels where applicable'], aws:'Serve robots/sitemap from S3 root.', r:'Configured crawler controls with sensible canonicalization.'},
+      {t:'Social cards', w:4, do:['Open Graph + Twitter cards; image size spec','Validate in debuggers and fix issues'], aws:'Long-cache card images with versioning.', r:'Implemented social share cards with correct image specs.'},
+      {t:'JSON-LD 101', w:4, do:['Organization, WebSite, BreadcrumbList JSON-LD','Validate with Rich Results Test'], aws:'Inline JSON-LD in HTML (static).', r:'Embedded JSON-LD for org, website and breadcrumbs.'},
+      {t:'Content types', w:4, do:['Article + FAQPage JSON-LD on blog page','HowTo or How-it-works page variant'], aws:'CDN cache rules for HTML vs images.', r:'Authored Article & FAQPage structured data for rich results.'},
+      {t:'Product & Reviews (static)', w:4, do:['Product, Offer, AggregateRating JSON-LD','Display visible price/review text in HTML'], aws:'Ensure prices are not JS-only for crawlers.', r:'Delivered Product rich-result markup with visible content.'},
+      {t:'SEO audit day', w:4, do:['Lighthouse SEO ≥95; broken link pass','Title/meta description quality fixes'], aws:'Version assets & invalidate.', r:'Achieved ≥95 Lighthouse SEO across pages; fixed crawl issues.'},
+      {t:'Marketing landing page', w:4, do:['Hero, features, FAQ, pricing table (semantic)','<details> for FAQ or proper heading structure'], aws:'Cache policy tuned for HTML vs assets.', r:'Built semantic marketing page with rich metadata.'},
+
+      // Week 5 — Forms Advanced & Performance
+      {t:'Inputs deep-dive', w:5, do:['inputmode, enterkeyhint, pattern, min/max/step','Mobile keyboard optimizations'], aws:'Device testing behind CloudFront.', r:'Optimized inputs for mobile keyboards and constraints.'},
+      {t:'Autocomplete mastery', w:5, do:['All address & payment tokens','Autofill friendly labels and ordering'], aws:'TLS enforced via CloudFront; test.', r:'Implemented complete autocomplete taxonomy for checkout.'},
+      {t:'Native performance', w:5, do:['preconnect/dns-prefetch/preload for criticals','Lazy loading + fetchpriority + decoding'], aws:'Long-cache static assets; LCP before/after.', r:'Applied native HTML perf hints to improve LCP/TBT.'},
+      {t:'Favicons + app icons set', w:5, do:['16–512px icons, maskable, webmanifest','Dark/light theme-color & PWA meta'], aws:'Serve correct MIME (`image/png`, `image/svg+xml`).', r:'Delivered full favicon/app icon pipeline with manifest.'},
+      {t:'Email HTML (edge case)', w:5, do:['Table layout, inline styles, alt fallback','Single-column mobile friendly test'], aws:'Host email images on S3 with long cache.', r:'Authored bulletproof HTML email template (marketing/update).'},
+      {t:'Perf & a11y review', w:5, do:['Lighthouse + axe + manual; document deltas','Fix any regressions from week 5 work'], aws:'Review CloudFront real-time logs (optional).', r:'Closed performance and accessibility gaps with measurable wins.'},
+      {t:'Pricing + checkout flow', w:5, do:['Static, HTML-first flow; error states and help text','Keyboard/reader tested end-to-end'], aws:'Custom 4xx/5xx pages via CloudFront.', r:'Built static pricing/checkout flow with accessible forms.'},
+
+      // Week 6 — Capstone
+      {t:'Plan & site map', w:6, do:['Plan 6–10 pages; IA + content outline','Choose color/typography tokens early'], aws:'Subdomain for capstone via Route 53.', r:'Planned a multi-page site with accessible information architecture.'},
+      {t:'Build core pages', w:6, do:['Home + Docs + Article pages','All metadata + skip links + landmarks'], aws:'Upload & verify caching headers.', r:'Implemented core pages with validated metadata and landmarks.'},
+      {t:'Product + pricing + FAQ', w:6, do:['Tables + FAQPage JSON-LD + Product JSON-LD','Link all pages together semantically'], aws:'Security headers via CloudFront Function.', r:'Added Product & FAQ rich results and connected IA.'},
+      {t:'Forms & contact', w:6, do:['Accessible contact form; success page','Error announcements + labels'], aws:'Static submit simulation page if needed.', r:'Delivered accessible contact flow with live announcements.'},
+      {t:'Media & i18n', w:6, do:['Responsive images/video captions; /fr/ or /es/ variant','hreflang + localized dates'], aws:'Prefix folders in S3 per locale.', r:'Internationalized the site and implemented captions/transcripts.'},
+      {t:'Final audits', w:6, do:['W3C validate all pages; Lighthouse A11y/SEO ≥95','WAVE/axe zero criticals'], aws:'Invalidate distribution and verify.', r:'Certified pages with W3C validator and ≥95 Lighthouse scores.'},
+      {t:'Portfolio & write-up', w:6, do:['README with screenshots, scores, lessons','Portfolio/landing page linking all demos'], aws:'Point root index to portfolio page.', r:'Published HTML capstone with audits and documentation.'}
+    ];
+
+    /* ====== State & helpers ====== */
+    const KEY = 'html6wk_v1';
+    const state = JSON.parse(localStorage.getItem(KEY) || '{"i":0,"mode":"learn","done":[],"history":[]}');
+    const $ = id => document.getElementById(id);
+    const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
+    const fmtPct = (done,total)=> Math.round((done/total)*100);
+
+    function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+    function computeStreak(){
+      const days = state.history.map(ts=>new Date(ts)).sort((a,b)=>b-a);
+      if(!days.length) return 0;
+      let streak=1; let cursor=new Date(days[0].toDateString());
+      for(let i=1;i<days.length;i++){
+        const d = new Date(days[i].toDateString());
+        const diff = Math.round((cursor - d)/(1000*60*60*24));
+        if(diff===1){ streak++; cursor=d; } else if(diff>1){ break; }
+      }
+      return streak;
+    }
+
+    /* ====== UI ====== */
+    function render(){
+      const d = DAYS[state.i]; const learnMode = state.mode==='learn';
+      $('dayTitle').textContent = `Day ${state.i+1}: ${d.t}`;
+      $('weekChip').textContent = `Week ${d.w}`;
+      $('modeChip').textContent = state.mode[0].toUpperCase()+state.mode.slice(1);
+
+      // tasks
+      const ul = $('todo'); ul.innerHTML='';
+      const tasks = [...d.do];
+      if(!learnMode) tasks.push('Challenge rule: rebuild from a blank file using only the checklist, then audit.');
+      tasks.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
+
+      $('aws').textContent = d.aws;
+      $('resumeText').textContent = d.r;
+
+      // stats
+      const doneCount = state.done.length;
+      const pct = fmtPct(doneCount, DAYS.length);
+      $('pct').textContent = pct+'%';
+      $('ring').style.setProperty('--deg', `${pct/100*360}deg`);
+      $('done').textContent = doneCount.toString();
+      $('streak').textContent = computeStreak().toString();
+
+      // button label
+      $('complete').textContent = state.done.includes(state.i) ? 'Completed ✓' : 'Mark Complete';
+    }
+
+    // Navigation
+    $('prev').onclick = ()=>{ state.i = clamp(state.i-1,0,DAYS.length-1); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
+    $('next').onclick = ()=>{ state.i = clamp(state.i+1,0,DAYS.length-1); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); };
+    $('complete').onclick = ()=>{
+      if(!state.done.includes(state.i)){ state.done.push(state.i); state.history.push(Date.now()); save(); render(); }
+    };
+    $('copyResume').onclick = async ()=>{
+      try{ await navigator.clipboard.writeText($('resumeText').textContent.trim()); $('copyResume').textContent='Copied!'; setTimeout(()=>$('copyResume').textContent='Copy',1200); }catch{}
+    };
+
+    // Mode toggle
+    document.querySelectorAll('.pill').forEach(p=>{
+      p.onclick = ()=>{
+        document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+        p.classList.add('active');
+        state.mode = p.dataset.mode;
+        save(); render();
+      };
+    });
+
+    // Install banner
+    let deferredPrompt=null;
+    window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; $('install').style.display='flex'; });
+    $('installBtn').onclick = async ()=>{
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; $('install').style.display='none';
+    };
+    $('dismissBtn').onclick = ()=> $('install').style.display='none';
+
+    // SW register (safe: never caches HTML)
+    if('serviceWorker' in navigator){
+      window.addEventListener('load', ()=>{
+        navigator.serviceWorker.register('./sw.js?v=1').catch(()=>{});
+      });
+    }
+
+    // First render
+    (function init(){
+      // spammy wallet extensions guard (quiet)
+      try{['ethereum','tronWeb','solana','walletRouter'].forEach(p=>Object.defineProperty(window,p,{get:()=>undefined,set:()=>{},configurable:false}))}catch(e){}
+      // init mode pills
+      document.querySelector(`.pill[data-mode="${state.mode}"]`)?.classList.add('active');
+      render();
+    })();
+  </script>
+</body>
+</html>
