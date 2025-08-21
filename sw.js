@@ -1,33 +1,42 @@
-// SW v1 — HTML-safe caching (never cache HTML)
-const STATIC = 'html6wk-static-v1';
-const ASSETS = [
-  './manifest.json'
-  // (icons or extra assets can be added here)
-];
-
-self.addEventListener('install', e=>{
-  e.waitUntil(caches.open(STATIC).then(c=>c.addAll(ASSETS)).catch(()=>null));
-  self.skipWaiting();
-});
-self.addEventListener('activate', e=>{
-  e.waitUntil(
-    caches.keys().then(keys=>Promise.all(keys.map(k=>k===STATIC?null:caches.delete(k))))
-  );
-  self.clients.claim();
-});
-self.addEventListener('fetch', e=>{
-  const req = e.request;
-  const url = new URL(req.url);
-  // Never cache HTML/navigate
-  const isHTML = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html') || url.pathname.endsWith('.html');
-  if (isHTML){ return; }
-  // Try cache, then network
-  e.respondWith(
-    caches.match(req).then(hit => hit || fetch(req).then(res=>{
-      if (res.ok && ['style','script','image','font'].includes(req.destination)) {
-        const copy = res.clone(); caches.open(STATIC).then(c=>c.put(req, copy));
-      }
-      return res;
-    }))
-  );
-});
+{
+  "id": "./",
+  "name": "HTML Mastery Trainer",
+  "short_name": "HTML Mastery",
+  "description": "30-day immersive training program to build HTML expertise up to supervisory level.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Training",
+      "short_name": "Daily",
+      "description": "Open today's HTML training module",
+      "url": "./?mode=daily",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Review Lessons",
+      "short_name": "Review",
+      "description": "Review past HTML mastery lessons",
+      "url": "./?mode=review",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Quizzes",
+      "short_name": "Quizzes",
+      "description": "Test your HTML knowledge with quizzes",
+      "url": "./?mode=quiz",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
