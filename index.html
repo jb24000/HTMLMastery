@@ -973,38 +973,36 @@ buildPicker();
 renderDay();
 </script>
 
-  <button id="installBtn" style="display:none;">Install App</button>
+<button id="installBtn" style="display:none">Install App</button>
 <script>
-  // Register SW with explicit scope (must match manifest scope)
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js", { scope: "./" })
-      .then(() => console.log("SW registered"))
-      .catch(err => console.error("SW reg failed", err));
+  // SW registration (ensure scope matches your deploy path if needed)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(() => console.log('SW registered'))
+      .catch(err => console.error('SW registration failed', err));
   }
 
-  // Show install button when eligible
   let deferredPrompt;
-  const installBtn = document.getElementById("installBtn");
+  const installBtn = document.getElementById('installBtn');
 
-  window.addEventListener("beforeinstallprompt", (e) => {
+  window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    installBtn.style.display = "inline-block";
+    installBtn.style.display = 'inline-block';
   });
 
-  installBtn.addEventListener("click", async () => {
-    installBtn.disabled = true;
+  installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log("User choice:", outcome);
+    const choice = await deferredPrompt.userChoice;
+    console.log('Install choice:', choice.outcome);
     deferredPrompt = null;
-    installBtn.style.display = "none";
+    installBtn.style.display = 'none';
   });
 
-  window.addEventListener("appinstalled", () => {
-    console.log("PWA installed");
-    installBtn.style.display = "none";
+  window.addEventListener('appinstalled', () => {
+    console.log('PWA installed');
+    installBtn.style.display = 'none';
   });
 </script>
 
