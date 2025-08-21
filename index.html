@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>HTML Mastery (6-Week Sprint)</title>
 <meta name="theme-color" content="#1f2a44" />
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#3b82f6">
 
 <style>
   :root{
@@ -970,5 +972,41 @@ $('#streak').textContent = state.streak || 0;
 buildPicker();
 renderDay();
 </script>
+
+  <button id="installBtn" style="display:none;">Install App</button>
+<script>
+  // Register SW with explicit scope (must match manifest scope)
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js", { scope: "./" })
+      .then(() => console.log("SW registered"))
+      .catch(err => console.error("SW reg failed", err));
+  }
+
+  // Show install button when eligible
+  let deferredPrompt;
+  const installBtn = document.getElementById("installBtn");
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "inline-block";
+  });
+
+  installBtn.addEventListener("click", async () => {
+    installBtn.disabled = true;
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log("User choice:", outcome);
+    deferredPrompt = null;
+    installBtn.style.display = "none";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    console.log("PWA installed");
+    installBtn.style.display = "none";
+  });
+</script>
+
 </body>
 </html>
