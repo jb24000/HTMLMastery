@@ -1,42 +1,40 @@
-{
-  "id": "./",
-  "name": "HTML Mastery Trainer",
-  "short_name": "HTML Mastery",
-  "description": "30-day immersive training program to build HTML expertise up to supervisory level.",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#f0f4f8",
-  "theme_color": "#3b82f6",
-  "orientation": "portrait",
-  "icons": [
-    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ],
-  "shortcuts": [
-    {
-      "name": "Daily Training",
-      "short_name": "Daily",
-      "description": "Open today's HTML training module",
-      "url": "./?mode=daily",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
-    },
-    {
-      "name": "Review Lessons",
-      "short_name": "Review",
-      "description": "Review past HTML mastery lessons",
-      "url": "./?mode=review",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
-    },
-    {
-      "name": "Quizzes",
-      "short_name": "Quizzes",
-      "description": "Test your HTML knowledge with quizzes",
-      "url": "./?mode=quiz",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
-    }
-  ],
-  "categories": ["education", "productivity"],
-  "lang": "en-US",
-  "dir": "ltr"
-}
+// sw.js
+const CACHE_NAME = "html-mastery-v1";
+const PRECACHE = [
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png"
+];
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(PRECACHE)));
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
+  );
+  self.clients.claim();
+});
+
+// Having a fetch handler is required for installability
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      return (
+        cached ||
+        fetch(event.request).catch(
+          () =>
+            new Response("You are offline.", {
+              headers: { "Content-Type": "text/plain" }
+            })
+        )
+      );
+    })
+  );
+});
