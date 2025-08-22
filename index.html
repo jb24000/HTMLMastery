@@ -973,36 +973,123 @@ buildPicker();
 renderDay();
 </script>
 
-<button id="installBtn" style="display:none">Install App</button>
-<script>
-  // SW registration (ensure scope matches your deploy path if needed)
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
-      .then(() => console.log('SW registered'))
-      .catch(err => console.error('SW registration failed', err));
-  }
+<!-- Debug / Installer block -->
+<button id="installBtn" style="display:none;margin-top:12px">Install App</button>
+<div id="installHelp" style="display:none;margin-top:10px;padding:10px;border:1px solid #d5dde8;border-radius:8px;background:#f6f9ff;color:#1f2937">
+  <strong>Install HTML Mastery:</strong>
+  <div id="helpSteps" style="margin-top:6px;font-size:14px;line-height:1.4"></div>
+</div>
 
-<button id="installBtn" style="display:none">Install App</button>
 <script>
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBtn').style.display = 'inline-block';
-  console.log('[HTMLMastery] beforeinstallprompt fired');
-});
-document.getElementById('installBtn').addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  console.log('Install choice:', outcome);
-  deferredPrompt = null;
-  document.getElementById('installBtn').style.display = 'none';
-});
-window.addEventListener('appinstalled', () => {
-  console.log('PWA installed');
-  document.getElementById('installBtn').style.display = 'none';
-});
+(() => {
+  // 0) Don’t break if this block is added twice
+  if (window.__HM_INSTALL_WIRED__) return; 
+  window.__HM_INSTALL_WIRED__ = true;
+
+  const log = (...a)=>console.log('[InstallDebug]', ...a);
+  const installBtn = document.getElementById('installBtn');
+  const help = document.getElementById('installHelp');
+  const helpSteps = document.getElementById('helpSteps');
+  let deferredPrompt = null;
+
+  // 1) Listen for BIP
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'inline-block';
+    help.style.display = 'none';
+    log('beforeinstallprompt fired ✅');
+  });
+
+  // 2) Click handler
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    log('userChoice:', outcome);
+    if (outcome !== 'accepted') {
+      // user dismissed; keep button visible
+      return;
+    }
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+  });
+
+  // 3) App installed -> hide button
+  window.addEventListener('appinstalled', () => {
+    log('appinstalled');
+    installBtn.style.display = 'none';
+    help.style.display = 'none';
+  });
+
+  // 4) Full diagnostics
+  (async () => {
+    const out = {};
+    out.page = location.href;
+    out.displayModeStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    out.navigatorStandalone = window.navigator.standalone === true; // iOS
+    out.swSupported = 'serviceWorker' in navigator;
+    out.swController = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
+    out.swScope = (await navigator.serviceWorker?.getRegistration())?.scope || '(no reg)';
+    const link = document.querySelector('link[rel="manifest"]');
+    out.manifestLink = link ? new URL(link.getAttribute('href'), location.href).href : '(none)';
+
+    if (out.manifestLink && out.manifestLink !== '(none)') {
+      try {
+        const r = await fetch(out.manifestLink, { cache:'no-store' });
+        out.manifestFetch = { ok:r.ok, status:r.status, url:r.url };
+        const m = r.ok ? await r.json() : null;
+        out.manifest = m;
+        // Icon checks
+        if (m && m.icons) {
+          out.iconChecks = await Promise.all(m.icons.map(async i => {
+            const u = new URL(i.src, out.manifestLink).href;
+            try {
+              const rr = await fetch(u, { cache:'no-store' });
+              return { url:u, ok:rr.ok, status:rr.status, sizes:i.sizes };
+            } catch(e) {
+              return { url:u, ok:false, error:String(e) };
+            }
+          }));
+        }
+        // Scope sanity for GH Pages
+        const expected = m?.scope || '';
+        out.scopeOK = expected ? location.pathname.startsWith(new URL(expected, out.manifestLink).pathname) : false;
+      } catch (e) {
+        out.manifestFetch = { ok:false, error:String(e) };
+      }
+    }
+    log('diag:', out);
+
+    // 5) If already installed or in standalone, BIP won’t fire
+    if (out.displayModeStandalone || out.navigatorStandalone) {
+      log('Already in standalone; install prompt will not fire.');
+      return;
+    }
+
+    // 6) After a short grace period, if no BIP -> show fallback help
+    setTimeout(() => {
+      if (!deferredPrompt && !installBtn.offsetParent) {
+        // Explain how to install manually
+        help.style.display = 'block';
+        const ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)) {
+          helpSteps.innerHTML =
+            `Open in Safari → Share (□↑) → <strong>Add to Home Screen</strong>.`;
+        } else if (/android/.test(ua)) {
+          helpSteps.innerHTML =
+            `In Chrome: Menu (⋮) → <strong>Install app</strong>.`;
+        } else {
+          helpSteps.innerHTML =
+            `In Chrome/Edge: check the <strong>Install</strong> icon in the address bar, or Menu → <strong>Install</strong>.`;
+        }
+        log('BIP not fired; showing manual install helper.');
+      }
+    }, 2000);
+  })();
+})();
+</script>
+
 </script>
 </body>
 </html>
