@@ -977,7 +977,16 @@ $('#streak').textContent = state.streak || 0;
 buildPicker();
 renderDay();
 </script>
-
+  <script>
+// Add this right after your closing </style> tag or at the beginning of your scripts
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
 <!-- Debug / Installer block -->
 <button id="installBtn" style="display:none;margin-top:12px">Install App</button>
 <div id="installHelp" style="display:none;margin-top:10px;padding:10px;border:1px solid #d5dde8;border-radius:8px;background:#f6f9ff;color:#1f2937">
