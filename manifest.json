@@ -1,5 +1,5 @@
 {
-  "id": "./",
+  "id": "/HTMLMastery/",
   "name": "HTML Mastery Trainer",
   "short_name": "HTML Mastery",
   "description": "30-day immersive training program to build HTML expertise up to supervisory level.",
@@ -10,16 +10,16 @@
   "theme_color": "#3b82f6",
   "orientation": "portrait",
   "icons": [
-    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/HTMLMastery/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/HTMLMastery/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ],
   "shortcuts": [
     {
       "name": "Daily Training",
       "short_name": "Daily",
       "description": "Open today's training",
-      "url": "./?mode=daily",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "url": "/HTMLMastery/?mode=daily",
+      "icons": [{ "src": "/HTMLMastery/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ],
   "categories": ["education", "productivity"],
