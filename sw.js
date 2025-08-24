@@ -1,11 +1,11 @@
 // sw.js
 const CACHE_NAME = "html-mastery-v1";
 const PRECACHE = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "/HTMLMastery/",
+  "/HTMLMastery/index.html",
+  "/HTMLMastery/manifest.json",
+  "/HTMLMastery/icons/icon-192.png",
+  "/HTMLMastery/icons/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
